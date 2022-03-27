@@ -64,7 +64,7 @@ const LatestMintsQuery = gql`
 `;
 
 function useLatest() {
-  const { data, error } = useSWR('/latest', () => request(TEZTOK_API, LatestMintsQuery));
+  const { data, error } = useSWR('/latest', () => request(TEZTOK_API, LatestMintsQuery), { refreshInterval: 5000 });
 
   return {
     mints: data && data.mint_events.map(({ token }) => token),
