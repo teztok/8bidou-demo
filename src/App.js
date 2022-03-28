@@ -9,7 +9,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="token/:tokenId" element={<TokenDetail />} />
-        <Route path="user/:tzAddressOrAlias" element={<UserDetail />} />
+        <Route path="user/:address" element={<UserDetail />} />
       </Routes>
     </div>
   );

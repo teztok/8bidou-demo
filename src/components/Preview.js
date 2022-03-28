@@ -1,3 +1,5 @@
+import classNames from 'classnames';
+
 function chunkLeft(str, size = 6) {
   if (typeof str === 'string') {
     const length = str.length;
@@ -9,13 +11,13 @@ function chunkLeft(str, size = 6) {
   }
 }
 
-export default function Preview({ rgb }) {
+export default function Preview({ rgb, large = false }) {
   const pixels = chunkLeft(rgb);
 
   return (
-    <div className="Preview">
-      {pixels.map((pixel) => (
-        <div className="Pixel" style={{ backgroundColor: `#${pixel}` }}></div>
+    <div className={classNames('Preview', { 'Preview--large': large })}>
+      {pixels.map((pixel, idx) => (
+        <div key={idx} className="Preview__Pixel" style={{ backgroundColor: `#${pixel}` }}></div>
       ))}
       <div style={{ clear: 'both' }}></div>
     </div>

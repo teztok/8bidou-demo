@@ -23,6 +23,7 @@ function Layout({ children }) {
     <Box>
       <header>
         <SyncButton />
+        <Link to="/">Home</Link>
       </header>
       {children}
     </Box>

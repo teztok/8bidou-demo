@@ -1,5 +1,6 @@
 :root {
   --pixel-size: 10px;
+  --pixel-size-large: 20px;
 }
 
 body {
@@ -18,10 +19,19 @@ code {
   width: calc(8 * var(--pixel-size));
 }
 
-.Pixel {
+.Preview--large {
+  width: calc(8 * var(--pixel-size-large));
+}
+
+.Preview__Pixel {
   width: var(--pixel-size);
   height: var(--pixel-size);
   float: left;
+}
+
+.Preview--large .Preview__Pixel {
+  width: var(--pixel-size-large);
+  height: var(--pixel-size-large);
 }
 
 .TokenGrid {

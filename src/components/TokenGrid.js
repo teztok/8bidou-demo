@@ -20,7 +20,7 @@ function TokenGrid({ tokens }) {
   return (
     <div className="TokenGrid">
       {tokens.map((token) => (
-        <Token key={token.token_id} token={token} />
+        <Token key={token.key} token={token} />
       ))}
     </div>
   );

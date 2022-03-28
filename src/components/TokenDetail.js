@@ -6,6 +6,7 @@ import UserLink from './UserLink';
 import Price from './Price';
 import Layout from './Layout';
 import LoadingLayer from './LoadingLayer';
+import CreationsTokenGrid from './CreationsTokenGrid';
 import { TEZTOK_API, FA2_CONTRACT_8X8_COLOR } from '../consts';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -173,13 +174,43 @@ function TokenDetail() {
   return (
     <Layout>
       <div className="TokenDetail">
-        <Preview rgb={token.eightbid_rgb} />
+        <div className="TokenDetail__Meta">
+          <div>#{token.token_id}</div>
+          <div>
+            <strong>creator:</strong>
+            {token.eightbid_creator_name}
+          </div>
+          <div>
+            <strong>name:</strong>
+            {token.name}
+          </div>
+          <div>
+            <strong>description:</strong>
+            {token.description}
+          </div>
+          <div>
+            <strong>editions:</strong>
+            {token.editions}
+          </div>
+          <div>
+            <strong>sales:</strong>
+            {token.sales_count}
+          </div>
+          <div>
+            <Price amount={token.price} />
+          </div>
+        </div>
+
+        <Preview rgb={token.eightbid_rgb} large />
         <h2>Listings</h2>
         <ListingsTable listings={token.listings} />
         <h2>Sales</h2>
         <SalesTable sales={token.events} />
         <h2>Holders</h2>
         <Holdings holdings={token.holdings} />
+
+        <CreationsTokenGrid headline="All creations by this artist" address={token.artist_address} />
+
         <pre>{JSON.stringify(token, null, 2)}</pre>
       </div>
     </Layout>
