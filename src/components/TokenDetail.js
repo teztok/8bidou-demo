@@ -186,7 +186,11 @@ function TokenDetail() {
           <Sales sales={token.events} />
         </div>
 
-        <CreationsTokenGrid headline="Other pixels from this artist" address={token.artist_address} />
+        <CreationsTokenGrid
+          headline="Other pixels from this artist"
+          address={token.artist_address}
+          filter={(t) => token.token_id !== t.token_id}
+        />
 
         <pre>{JSON.stringify(token, null, 2)}</pre>
       </div>
