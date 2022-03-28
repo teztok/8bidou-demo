@@ -1,3 +1,7 @@
 export default function Price({ amount }) {
-  return <span className="Price">{`${(amount / 1000000).toFixed(2)} ꜩ`}</span>;
+  let priceFixed = (amount / 1000000).toFixed(2);
+  if (priceFixed.endsWith('.00')) {
+    priceFixed = priceFixed.slice(0, -3);
+  }
+  return <span className="Price">{`${priceFixed} ꜩ`}</span>;
 }
