@@ -6,6 +6,7 @@ import UserLink from './UserLink';
 import Price from './Price';
 import Layout from './Layout';
 import LoadingLayer from './LoadingLayer';
+import BuyButton from './BuyButton';
 import CreationsTokenGrid from './CreationsTokenGrid';
 import { TEZTOK_API, FA2_CONTRACT_8X8_COLOR } from '../consts';
 import Table from '@mui/material/Table';
@@ -32,6 +33,7 @@ const TokenQuery = gql`
       }
       listings(where: { status: { _eq: "active" } }, order_by: { price: asc }) {
         seller_address
+        swap_id
         seller_profile {
           alias
           description
@@ -98,7 +100,7 @@ function ListingsTable({ listings }) {
             </TableCell>
             <TableCell>{listing.amount_left}</TableCell>
             <TableCell>
-              <Price amount={listing.price} />
+              <BuyButton amount={listing.price} swapId={listing.swap_id} />
             </TableCell>
           </TableRow>
         ))}
