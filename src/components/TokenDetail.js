@@ -9,6 +9,7 @@ import LoadingLayer from './LoadingLayer';
 import BuyButton from './BuyButton';
 import CreationsTokenGrid from './CreationsTokenGrid';
 import { TEZTOK_API, FA2_CONTRACT_8X8_COLOR } from '../consts';
+import { hexToRGB, getPrimaryHexColor, hexToComplimentary } from '../libs/utils';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -173,8 +174,12 @@ function TokenDetail() {
     return <LoadingLayer />;
   }
 
+  const backgroundColor = hexToRGB(hexToComplimentary(getPrimaryHexColor(token.eightbid_rgb)), 0.5);
+
+  console.log('backgroundColor', backgroundColor);
+
   return (
-    <Layout>
+    <Layout backgroundColor={backgroundColor}>
       <div className="TokenDetail">
         <div className="TokenDetail__Meta">
           <div>#{token.token_id}</div>

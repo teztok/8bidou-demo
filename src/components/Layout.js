@@ -2,9 +2,9 @@ import Box from '@mui/material/Box';
 import SyncButton from './SyncButton';
 import { Link } from 'react-router-dom';
 
-function Layout({ children }) {
+function Layout({ children, backgroundColor = 'inherit' }) {
   return (
-    <Box>
+    <Box style={{ backgroundColor: backgroundColor }}>
       <header>
         <div className="inner">
           <div className="columns">
