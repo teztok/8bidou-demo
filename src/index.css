@@ -284,6 +284,7 @@ button:active {
   overflow: hidden;
   /*width: 120px;*/
   width: calc(var(--pixel) * 6);
+  opacity: 0.4;
 
   white-space: nowrap;
   text-overflow: ellipsis;

@@ -10,7 +10,7 @@ import LoadingLayer from './LoadingLayer';
 import BuyButton from './BuyButton';
 import CreationsTokenGrid from './CreationsTokenGrid';
 import { TEZTOK_API, FA2_CONTRACT_8X8_COLOR, MARKETPLACE_CONTRACT_8X8_COLOR } from '../consts';
-import { hexToRGB, getPrimaryHexColor, hexToComplimentary } from '../libs/utils';
+import { hexToRGB, getPrimaryHexColor } from '../libs/utils';
 
 const TokenQuery = gql`
   query getToken($tokenId: String!) {
@@ -82,6 +82,10 @@ function useToken(tokenId) {
 }
 
 function Sales({ sales }) {
+  if (!sales.length) {
+    return <div className="Sales">no sales yet</div>;
+  }
+
   return (
     <div className="Sales">
       <ul>
@@ -125,7 +129,7 @@ function TokenDetail() {
     return <LoadingLayer />;
   }
 
-  const backgroundColor = hexToRGB(hexToComplimentary(getPrimaryHexColor(token.eightbid_rgb)), 0.25);
+  const backgroundColor = hexToRGB(getPrimaryHexColor(token.eightbid_rgb), 0.25);
 
   return (
     <Layout backgroundColor={backgroundColor}>
@@ -135,16 +139,22 @@ function TokenDetail() {
             <Preview rgb={token.eightbid_rgb} large />
           </div>
           <div className="TokenDetail__Meta">
-            <h3><a href={`https://www.8bidou.com/item_detail/?id=${token.token_id}`}>#{token.token_id}</a></h3>
-            <div className="TokenDetail__Meta__Info">
-              <span>ARTIST</span>
+            <h3>
+              <a href={`https://www.8bidou.com/item_detail/?id=${token.token_id}`}>#{token.token_id}</a>
               <br />
               <UserLink field="artist" data={token} label={token.eightbid_creator_name} />
-            </div>
+            </h3>
+
             <div className="TokenDetail__Meta__Info">
               <span>TITLE</span>
               <br />
               {token.name}
+            </div>
+
+            <div className="TokenDetail__Meta__Info">
+              <span>DESCRIPTION</span>
+              <br />
+              {token.description}
             </div>
             <div className="TokenDetail__Meta__Info">
               <span>EDITIONS</span>
@@ -162,11 +172,7 @@ function TokenDetail() {
               {new Date(token.minted_at).toLocaleDateString()}
             </div>
             <div className="TokenDetail__Meta__Info">
-              <span>PRICE</span>
-              <br />
-              {token.listings.length && (
-                <BuyButton amount={token.listings[0].price} swapId={token.listings[0].swap_id} />
-              )}
+              {token.listings.length ? <BuyButton amount={token.listings[0].price} swapId={token.listings[0].swap_id} /> : null}
             </div>
           </div>
         </div>
