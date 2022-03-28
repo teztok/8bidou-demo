@@ -174,50 +174,56 @@ function TokenDetail() {
     return <LoadingLayer />;
   }
 
-  const backgroundColor = hexToRGB(hexToComplimentary(getPrimaryHexColor(token.eightbid_rgb)), 0.5);
+  const backgroundColor = hexToRGB(hexToComplimentary(getPrimaryHexColor(token.eightbid_rgb)), 0.25);
 
   console.log('backgroundColor', backgroundColor);
 
   return (
     <Layout backgroundColor={backgroundColor}>
       <div className="TokenDetail">
-        <div className="TokenDetail__Meta">
-          <div>#{token.token_id}</div>
-          <div>
-            <strong>creator:</strong>
-            <UserLink field="artist" data={token} label={token.eightbid_creator_name} />
+        <div className="Token__Cols">
+          <div className="TokenDetail__Thumbnail">
+            <Preview rgb={token.eightbid_rgb} large />
           </div>
-          <div>
-            <strong>name:</strong>
-            {token.name}
-          </div>
-          <div>
-            <strong>description:</strong>
-            {token.description}
-          </div>
-          <div>
-            <strong>editions:</strong>
-            {token.editions}
-          </div>
-          <div>
-            <strong>sales:</strong>
-            {token.sales_count}
-          </div>
-          <div>
-            <Price amount={token.price} />
+          <div className="TokenDetail__Meta">
+            <h3>#{token.token_id}</h3>
+            <div className="TokenDetail__Meta__Info">
+              <span>ARTIST</span><br />
+              <UserLink field="artist" data={token} label={token.eightbid_creator_name} />
+            </div>
+            <div className="TokenDetail__Meta__Info">
+              <span>TITLE</span><br />
+              {token.name}
+            </div>
+            <div className="TokenDetail__Meta__Info">
+              <span>EDITIONS</span><br />
+              {token.editions}
+            </div>
+            <div className="TokenDetail__Meta__Info">
+              <span>SALES</span><br />
+              {token.sales_count}
+            </div>
+            <div className="TokenDetail__Meta__Info">
+              <span>PRICE</span><br />
+              <Price amount={token.price} />
+            </div>
           </div>
         </div>
 
-        <Preview rgb={token.eightbid_rgb} large />
+        <div className="TokenWrapper">
+          <h2>Listings</h2>
+          <ListingsTable listings={token.listings} />
+        </div>
+        <div className="TokenWrapper">
+          <h2>Sales</h2>
+          <SalesTable sales={token.events} />
+        </div>
+        <div className="TokenWrapper">
+          <h2>Holders</h2>
+          <Holdings holdings={token.holdings} />
+        </div>
 
-        <CreationsTokenGrid headline="All creations by this artist" address={token.artist_address} />
-
-        <h2>Listings</h2>
-        <ListingsTable listings={token.listings} />
-        <h2>Sales</h2>
-        <SalesTable sales={token.events} />
-        <h2>Holders</h2>
-        <Holdings holdings={token.holdings} />
+        <CreationsTokenGrid headline="Other pixels from this artist" address={token.artist_address} />
 
         <pre>{JSON.stringify(token, null, 2)}</pre>
       </div>

@@ -13,8 +13,8 @@
   --pixel-size: 10px;
   --pixel-size-large: 20px;
 
-
   --pixel: calc((100vw - (var(--unit) * 11)) / 64);
+  --pixel-large: calc(((100vw * 0.5) - (var(--unit) * 3)) / 8);
 }
 
 @media screen and (max-width: 1350px) {
@@ -26,6 +26,7 @@
 @media screen and (max-width: 900px) {
   :root {
     --pixel: calc((100vw - (var(--unit) * 7)) / 34);
+    --pixel-large: calc((100vw - (var(--unit) * 4)) / 8);
   }
 }
 
@@ -49,11 +50,23 @@ a {
 
 /* -------------------------- */
 
+h2,
+h3 {
+  margin: 0;
+
+  font-weight: normal;
+}
+
 h2 {
   margin: 0 0 calc(var(--unit) * 2) 0;
   padding: 0 0 calc(var(--unit) * 1.5);
   border-bottom: 4px solid var(--black);
 
+  font-size: var(--fs-headline);
+  line-height: var(--lh-headline);
+}
+
+h3 {
   font-size: var(--fs-headline);
   line-height: var(--lh-headline);
 }
@@ -115,14 +128,10 @@ header .columns {
 }
 
 header .columns .column {
-  width: 33.33%;
+  width: 50%;
 }
 
 header .columns .column:nth-child(2) {
-  text-align: center;
-}
-
-header .columns .column:nth-child(3) {
   text-align: right;
 }
 
@@ -180,21 +189,35 @@ button:active {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  justify-content: space-between;
+  /*justify-content: space-between;*/
   width: 100%;
 }
 
-.TokenGrid .Token {
-  width: calc(1/8 * 100% - (1 - 1/8) * (var(--unit) * 1));
+@media screen and (min-width: 1351px) {
+  .TokenGrid .Token {
+    margin-right: calc(var(--unit) * 1);
+    width: calc(1/8 * 100% - (1 - 1/8) * (var(--unit) * 1));
+  }
+
+  .TokenGrid .Token:nth-child(8n+8) {
+    margin-right: 0;
+  }
+
+  .TokenGrid .Token:nth-child(n+9) {
+    margin-top: calc(var(--unit) * 2);
+  }
 }
 
-.TokenGrid .Token:nth-child(n+9) {
-  margin-top: calc(var(--unit) * 2);
-}
+
 
 @media screen and (max-width: 1350px) {
   .TokenGrid .Token {
+    margin-right: calc(var(--unit) * 1);
     width: calc(1/6 * 100% - (1 - 1/6) * (var(--unit) * 1));
+  }
+
+  .TokenGrid .Token:nth-child(6n+6) {
+    margin-right: 0;
   }
 
   .TokenGrid .Token:nth-child(n+7) {
@@ -204,7 +227,12 @@ button:active {
 
 @media screen and (max-width: 900px) {
   .TokenGrid .Token {
+    margin-right: calc(var(--unit) * 1);
     width: calc(1/4 * 100% - (1 - 1/4) * (var(--unit) * 1));
+  }
+
+  .TokenGrid .Token:nth-child(4n+4) {
+    margin-right: 0;
   }
 
   .TokenGrid .Token:nth-child(n+5) {
@@ -214,7 +242,12 @@ button:active {
 
 @media screen and (max-width: 600px) {
   .TokenGrid .Token {
+    margin-right: calc(var(--unit) * 1);
     width: calc(1/2 * 100% - (1 - 1/2) * (var(--unit) * 1));
+  }
+
+  .TokenGrid .Token:nth-child(2n+2) {
+    margin-right: 0;
   }
 
   .TokenGrid .Token:nth-child(n+3) {
@@ -293,24 +326,85 @@ button:active {
 /* -------------------------- */
 
 .Preview {
-  /*width: calc(8 * var(--pixel-size));*/
   width: 100%;
 }
 
 .Preview__Pixel {
   float: left;
-  /*width: var(--pixel-size);
-  height: var(--pixel-size);*/
-  /*width: calc(100% / 8);*/
   width: var(--pixel);
   height: var(--pixel);
 }
 
 .Preview--large {
-  width: calc(8 * var(--pixel-size-large));
+  width: calc((100vw * 0.5) - (var(--unit) * 3));
+}
+
+@media screen and (max-width: 900px) {
+  .Preview--large {
+    width: calc(100vw - (var(--unit) * 4));
+  } 
 }
 
 .Preview--large .Preview__Pixel {
-  width: var(--pixel-size-large);
-  height: var(--pixel-size-large);
+  width: var(--pixel-large);
+  height: var(--pixel-large);
+}
+
+.TokenDetail .Token__Cols {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  width: 100%;
+}
+
+@media screen and (max-width: 900px) {
+  .TokenDetail .Token__Cols {
+    display: block;
+  }
+}
+
+.TokenDetail__Meta h3 {
+  margin-bottom: calc(var(--unit) * 2);
+}
+
+.TokenDetail__Meta {
+  margin-left: calc(var(--unit) * 4);
+}
+
+@media screen and (max-width: 900px) {
+  .TokenDetail__Meta {
+    margin-top: calc(var(--unit) * 2);
+    margin-left: 0;
+  }
+}
+
+.TokenDetail__Meta__Info {
+  margin-top: calc(var(--unit) * 0.75);
+}
+
+.TokenDetail__Meta__Info a {
+  color: var(--black);
+}
+
+
+
+.TokenWrapper {
+  margin-top: calc(var(--unit) * 4);
+}
+
+
+.LoadingLayer {
+  z-index: 2000;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--black);
+
+  color: var(--white);
 }

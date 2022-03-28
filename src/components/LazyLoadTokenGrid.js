@@ -19,7 +19,7 @@ function LazyLoadTokenGrid({
   tokenPath = '',
   keyPath = 'token_id',
   refreshInterval = false,
-  emptyMessage = 'no results',
+  emptyMessage = 'No pixels!',
 }) {
   const [searchParams, setSearchParams] = useSearchParams();
   const [limit, setLimit] = useState(searchParams.get(namespace) ? parseInt(searchParams.get(namespace), 10) : itemsPerLoad);
@@ -59,7 +59,7 @@ function LazyLoadTokenGrid({
     return (
       <div className="LazyTokenGrid LazyTokenGrid--NoResults">
         <h2>{headline}</h2>
-        <em>{emptyMessage}</em>
+        <span>{emptyMessage}</span>
       </div>
     );
   }

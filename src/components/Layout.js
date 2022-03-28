@@ -9,10 +9,7 @@ function Layout({ children, backgroundColor = 'inherit' }) {
         <div className="inner">
           <div className="columns">
             <div className="column">
-              <Link to="/">Home</Link>
-            </div>
-            <div className="column">
-              8bidou &times; TezTok
+              <Link to="/">8bidou &times; TezTok</Link>
             </div>
             <div className="column">
               <SyncButton />

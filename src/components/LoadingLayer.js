@@ -1,5 +1,5 @@
 function LoadingLayer() {
-  return <div>...loading</div>;
+  return <div className="LoadingLayer"><span>LOADING PIXELS</span></div>;
 }
 
 export default LoadingLayer;
