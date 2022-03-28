@@ -17,9 +17,7 @@ function Layout({ children, backgroundColor = 'inherit' }) {
           </div>
         </div>
       </header>
-      <div className="content">
-        {children}
-      </div>
+      <div className="content">{children}</div>
     </Box>
   );
 }

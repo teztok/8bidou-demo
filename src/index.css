@@ -1,7 +1,7 @@
 :root {
   --black: #000000;
-  --white: #FFFFFF;
-  
+  --white: #ffffff;
+
   --unit: 20px;
 
   --fs-body: 8px;
@@ -81,7 +81,7 @@ body {
   font-size: var(--fs-body);
   line-height: var(--lh-body);
   color: var(--black);
-  
+
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -181,7 +181,7 @@ button:active {
 
 /* -------------------------- */
 
-.LazyTokenGrid:nth-child(n+2) {
+.LazyTokenGrid:nth-child(n + 2) {
   margin-top: calc(var(--unit) * 4);
 }
 
@@ -196,31 +196,29 @@ button:active {
 @media screen and (min-width: 1351px) {
   .TokenGrid .Token {
     margin-right: calc(var(--unit) * 1);
-    width: calc(1/8 * 100% - (1 - 1/8) * (var(--unit) * 1));
+    width: calc(1 / 8 * 100% - (1 - 1 / 8) * (var(--unit) * 1));
   }
 
-  .TokenGrid .Token:nth-child(8n+8) {
+  .TokenGrid .Token:nth-child(8n + 8) {
     margin-right: 0;
   }
 
-  .TokenGrid .Token:nth-child(n+9) {
+  .TokenGrid .Token:nth-child(n + 9) {
     margin-top: calc(var(--unit) * 2);
   }
 }
 
-
-
 @media screen and (max-width: 1350px) {
   .TokenGrid .Token {
     margin-right: calc(var(--unit) * 1);
-    width: calc(1/6 * 100% - (1 - 1/6) * (var(--unit) * 1));
+    width: calc(1 / 6 * 100% - (1 - 1 / 6) * (var(--unit) * 1));
   }
 
-  .TokenGrid .Token:nth-child(6n+6) {
+  .TokenGrid .Token:nth-child(6n + 6) {
     margin-right: 0;
   }
 
-  .TokenGrid .Token:nth-child(n+7) {
+  .TokenGrid .Token:nth-child(n + 7) {
     margin-top: calc(var(--unit) * 2);
   }
 }
@@ -228,14 +226,14 @@ button:active {
 @media screen and (max-width: 900px) {
   .TokenGrid .Token {
     margin-right: calc(var(--unit) * 1);
-    width: calc(1/4 * 100% - (1 - 1/4) * (var(--unit) * 1));
+    width: calc(1 / 4 * 100% - (1 - 1 / 4) * (var(--unit) * 1));
   }
 
-  .TokenGrid .Token:nth-child(4n+4) {
+  .TokenGrid .Token:nth-child(4n + 4) {
     margin-right: 0;
   }
 
-  .TokenGrid .Token:nth-child(n+5) {
+  .TokenGrid .Token:nth-child(n + 5) {
     margin-top: calc(var(--unit) * 2);
   }
 }
@@ -243,14 +241,14 @@ button:active {
 @media screen and (max-width: 600px) {
   .TokenGrid .Token {
     margin-right: calc(var(--unit) * 1);
-    width: calc(1/2 * 100% - (1 - 1/2) * (var(--unit) * 1));
+    width: calc(1 / 2 * 100% - (1 - 1 / 2) * (var(--unit) * 1));
   }
 
-  .TokenGrid .Token:nth-child(2n+2) {
+  .TokenGrid .Token:nth-child(2n + 2) {
     margin-right: 0;
   }
 
-  .TokenGrid .Token:nth-child(n+3) {
+  .TokenGrid .Token:nth-child(n + 3) {
     margin-top: calc(var(--unit) * 2);
   }
 }
@@ -287,7 +285,7 @@ button:active {
   /*width: 120px;*/
   width: calc(var(--pixel) * 6);
 
-  white-space: nowrap; 
+  white-space: nowrap;
   text-overflow: ellipsis;
 }
 
@@ -342,7 +340,7 @@ button:active {
 @media screen and (max-width: 900px) {
   .Preview--large {
     width: calc(100vw - (var(--unit) * 4));
-  } 
+  }
 }
 
 .Preview--large .Preview__Pixel {
@@ -386,12 +384,9 @@ button:active {
   color: var(--black);
 }
 
-
-
 .TokenWrapper {
   margin-top: calc(var(--unit) * 4);
 }
-
 
 .LoadingLayer {
   z-index: 2000;

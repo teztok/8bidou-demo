@@ -188,23 +188,28 @@ function TokenDetail() {
           <div className="TokenDetail__Meta">
             <h3>#{token.token_id}</h3>
             <div className="TokenDetail__Meta__Info">
-              <span>ARTIST</span><br />
+              <span>ARTIST</span>
+              <br />
               <UserLink field="artist" data={token} label={token.eightbid_creator_name} />
             </div>
             <div className="TokenDetail__Meta__Info">
-              <span>TITLE</span><br />
+              <span>TITLE</span>
+              <br />
               {token.name}
             </div>
             <div className="TokenDetail__Meta__Info">
-              <span>EDITIONS</span><br />
+              <span>EDITIONS</span>
+              <br />
               {token.editions}
             </div>
             <div className="TokenDetail__Meta__Info">
-              <span>SALES</span><br />
+              <span>SALES</span>
+              <br />
               {token.sales_count}
             </div>
             <div className="TokenDetail__Meta__Info">
-              <span>PRICE</span><br />
+              <span>PRICE</span>
+              <br />
               <Price amount={token.price} />
             </div>
           </div>
