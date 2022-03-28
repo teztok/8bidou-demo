@@ -1,9 +1,16 @@
+import { useEffect } from 'react';
 import TokenDetail from './components/TokenDetail';
 import UserDetail from './components/UserDetail';
 import Home from './components/Home';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useLocation } from 'react-router-dom';
 
 function App() {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+
   return (
     <div className="App">
       <Routes>

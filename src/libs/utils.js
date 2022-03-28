@@ -134,3 +134,7 @@ export function hexToComplimentary(hex) {
   rgb = b | (g << 8) | (r << 16);
   return '#' + (0x1000000 | rgb).toString(16).substring(1);
 }
+
+export function shortenTzAddress(address) {
+  return `${address.substr(0, 5)}…${address.substr(-5)}`;
+}

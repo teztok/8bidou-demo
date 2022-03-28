@@ -20,6 +20,7 @@ function LazyLoadTokenGrid({
   keyPath = 'token_id',
   refreshInterval = false,
   emptyMessage = 'No pixels!',
+  filter = (token) => token,
 }) {
   const [searchParams, setSearchParams] = useSearchParams();
   const [limit, setLimit] = useState(searchParams.get(namespace) ? parseInt(searchParams.get(namespace), 10) : itemsPerLoad);
@@ -52,7 +53,9 @@ function LazyLoadTokenGrid({
     );
   }
 
-  const tokens = get(data, resultsPath).map((result) => ({ ...(tokenPath ? get(result, tokenPath) : result), key: get(result, keyPath) }));
+  const tokens = get(data, resultsPath)
+    .map((result) => ({ ...(tokenPath ? get(result, tokenPath) : result), key: get(result, keyPath) }))
+    .filter(filter);
   const hasProbablyMore = tokens.length === limit;
 
   if (!tokens.length) {

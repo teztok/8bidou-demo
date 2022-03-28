@@ -1,6 +1,7 @@
 import useSWR from 'swr';
 import { request, gql } from 'graphql-request';
 import { useParams } from 'react-router-dom';
+import ReactTimeAgo from 'react-time-ago';
 import Preview from './Preview';
 import UserLink from './UserLink';
 import Price from './Price';
@@ -8,13 +9,8 @@ import Layout from './Layout';
 import LoadingLayer from './LoadingLayer';
 import BuyButton from './BuyButton';
 import CreationsTokenGrid from './CreationsTokenGrid';
-import { TEZTOK_API, FA2_CONTRACT_8X8_COLOR } from '../consts';
+import { TEZTOK_API, FA2_CONTRACT_8X8_COLOR, MARKETPLACE_CONTRACT_8X8_COLOR } from '../consts';
 import { hexToRGB, getPrimaryHexColor, hexToComplimentary } from '../libs/utils';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
 
 const TokenQuery = gql`
   query getToken($tokenId: String!) {
@@ -25,6 +21,7 @@ const TokenQuery = gql`
       editions
       price
       sales_count
+      minted_at
       eightbid_creator_name
       eightbid_rgb
       artist_address
@@ -46,6 +43,7 @@ const TokenQuery = gql`
         status
       }
       events(where: { implements: { _eq: "SALE" } }, order_by: { opid: desc }) {
+        opid
         timestamp
         seller_address
         seller_profile {
@@ -61,7 +59,7 @@ const TokenQuery = gql`
         price
         total_price
       }
-      holdings {
+      holdings(where: { amount: { _gt: 0 } }, order_by: { amount: desc }) {
         holder_address
         holder_profile {
           alias
@@ -83,86 +81,39 @@ function useToken(tokenId) {
   };
 }
 
-function ListingsTable({ listings }) {
+function Sales({ sales }) {
   return (
-    <Table sx={{ minWidth: 650 }} size="small">
-      <TableHead>
-        <TableRow>
-          <TableCell>Seller</TableCell>
-          <TableCell>Amount</TableCell>
-          <TableCell>Price</TableCell>
-        </TableRow>
-      </TableHead>
-      <TableBody>
-        {listings.map((listing) => (
-          <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-            <TableCell>
-              <UserLink data={listing} field="seller" />
-            </TableCell>
-            <TableCell>{listing.amount_left}</TableCell>
-            <TableCell>
-              <BuyButton amount={listing.price} swapId={listing.swap_id} />
-            </TableCell>
-          </TableRow>
-        ))}
-      </TableBody>
-    </Table>
-  );
-}
-
-function SalesTable({ sales }) {
-  return (
-    <Table sx={{ minWidth: 650 }} size="small">
-      <TableHead>
-        <TableRow>
-          <TableCell>Seller</TableCell>
-          <TableCell>Buyer</TableCell>
-          <TableCell>Amount</TableCell>
-          <TableCell>Price</TableCell>
-          <TableCell>Date</TableCell>
-        </TableRow>
-      </TableHead>
-      <TableBody>
+    <div className="Sales">
+      <ul>
         {sales.map((sale) => (
-          <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-            <TableCell>
-              <UserLink data={sale} field="seller" />
-            </TableCell>
-            <TableCell>
-              <UserLink data={sale} field="buyer" />
-            </TableCell>
-            <TableCell>{sale.amount}</TableCell>
-            <TableCell>
-              <Price amount={sale.price} />
-            </TableCell>
-            <TableCell>{sale.timestamp}</TableCell>
-          </TableRow>
+          <li key={sale.opid}>
+            {sale.amount} x <UserLink data={sale} field="seller" /> ➔ <UserLink data={sale} field="buyer" /> for{' '}
+            <Price amount={sale.price} /> &nbsp;(
+            <ReactTimeAgo date={new Date(sale.timestamp)} />)
+          </li>
         ))}
-      </TableBody>
-    </Table>
+      </ul>
+    </div>
   );
 }
 
-function Holdings({ holdings }) {
+function ListingsAndHoldings({ holdings, listings }) {
+  const holdingsFiltered = holdings.filter(({ holder_address }) => holder_address !== MARKETPLACE_CONTRACT_8X8_COLOR);
   return (
-    <Table size="small">
-      <TableHead>
-        <TableRow>
-          <TableCell>Holder</TableCell>
-          <TableCell>Amount</TableCell>
-        </TableRow>
-      </TableHead>
-      <TableBody>
-        {holdings.map((holding) => (
-          <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-            <TableCell>
-              <UserLink data={holding} field="holder" />
-            </TableCell>
-            <TableCell>{holding.amount}</TableCell>
-          </TableRow>
+    <div className="ListingsAndHoldings">
+      <ul>
+        {listings.map((listing) => (
+          <li key={listing.swap_id}>
+            {listing.amount_left} x <UserLink data={listing} field="seller" /> <BuyButton amount={listing.price} swapId={listing.swap_id} />
+          </li>
         ))}
-      </TableBody>
-    </Table>
+        {holdingsFiltered.map((holding) => (
+          <li key={holding.holder_address}>
+            {holding.amount} x <UserLink data={holding} field="holder" />
+          </li>
+        ))}
+      </ul>
+    </div>
   );
 }
 
@@ -176,8 +127,6 @@ function TokenDetail() {
 
   const backgroundColor = hexToRGB(hexToComplimentary(getPrimaryHexColor(token.eightbid_rgb)), 0.25);
 
-  console.log('backgroundColor', backgroundColor);
-
   return (
     <Layout backgroundColor={backgroundColor}>
       <div className="TokenDetail">
@@ -186,7 +135,7 @@ function TokenDetail() {
             <Preview rgb={token.eightbid_rgb} large />
           </div>
           <div className="TokenDetail__Meta">
-            <h3>#{token.token_id}</h3>
+            <h3><a href={`https://www.8bidou.com/item_detail/?id=${token.token_id}`}>#{token.token_id}</a></h3>
             <div className="TokenDetail__Meta__Info">
               <span>ARTIST</span>
               <br />
@@ -208,24 +157,27 @@ function TokenDetail() {
               {token.sales_count}
             </div>
             <div className="TokenDetail__Meta__Info">
+              <span>MINTED</span>
+              <br />
+              {new Date(token.minted_at).toLocaleDateString()}
+            </div>
+            <div className="TokenDetail__Meta__Info">
               <span>PRICE</span>
               <br />
-              <Price amount={token.price} />
+              {token.listings.length && (
+                <BuyButton amount={token.listings[0].price} swapId={token.listings[0].swap_id} />
+              )}
             </div>
           </div>
         </div>
 
         <div className="TokenWrapper">
           <h2>Listings</h2>
-          <ListingsTable listings={token.listings} />
+          <ListingsAndHoldings holdings={token.holdings} listings={token.listings} />
         </div>
         <div className="TokenWrapper">
           <h2>Sales</h2>
-          <SalesTable sales={token.events} />
-        </div>
-        <div className="TokenWrapper">
-          <h2>Holders</h2>
-          <Holdings holdings={token.holdings} />
+          <Sales sales={token.events} />
         </div>
 
         <CreationsTokenGrid headline="Other pixels from this artist" address={token.artist_address} />

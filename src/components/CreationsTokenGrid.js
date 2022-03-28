@@ -2,7 +2,7 @@ import { gql } from 'graphql-request';
 import { FA2_CONTRACT_8X8_COLOR } from '../consts';
 import LazyLoadTokenGrid from './LazyLoadTokenGrid';
 
-function CreationsTokenGrid({ address, headline = 'Creations' }) {
+function CreationsTokenGrid({ address, headline = 'Creations', filter }) {
   return (
     <LazyLoadTokenGrid
       headline={headline}
@@ -10,6 +10,7 @@ function CreationsTokenGrid({ address, headline = 'Creations' }) {
       swrParams={[address]}
       resultsPath="tokens"
       variables={{ address }}
+      filter={filter}
       query={gql`
       query getCreations($address: String!, $limit: Int!) {
         tokens(
