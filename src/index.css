@@ -1,44 +1,316 @@
 :root {
+  --black: #000000;
+  --white: #FFFFFF;
+  
+  --unit: 20px;
+
+  --fs-body: 8px;
+  --lh-body: 16px;
+
+  --fs-headline: 16px;
+  --lh-headline: 16px;
+
   --pixel-size: 10px;
   --pixel-size-large: 20px;
+
+
+  --pixel: calc((100vw - (var(--unit) * 11)) / 64);
 }
+
+@media screen and (max-width: 1350px) {
+  :root {
+    --pixel: calc((100vw - (var(--unit) * 9)) / 52);
+  }
+}
+
+@media screen and (max-width: 900px) {
+  :root {
+    --pixel: calc((100vw - (var(--unit) * 7)) / 34);
+  }
+}
+
+@media screen and (max-width: 600px) {
+  :root {
+    --pixel: calc((100vw - (var(--unit) * 5)) / 16);
+  }
+}
+
+/* -------------------------- */
+
+iframe {
+  display: none !important;
+}
+
+/* -------------------------- */
+
+a {
+  text-decoration: none;
+}
+
+/* -------------------------- */
+
+h2 {
+  margin: 0 0 calc(var(--unit) * 2) 0;
+  padding: 0 0 calc(var(--unit) * 1.5);
+  border-bottom: 4px solid var(--black);
+
+  font-size: var(--fs-headline);
+  line-height: var(--lh-headline);
+}
+
+/* -------------------------- */
 
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans',
-    'Helvetica Neue', sans-serif;
+  padding: 0;
+
+  font-family: 'Press Start 2P', cursive;
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+  color: var(--black);
+  
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+/* -------------------------- */
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
 
+pre {
+  display: none;
+}
+
+/* -------------------------- */
+
+header {
+  z-index: 1000;
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  height: calc(var(--unit) * 3);
+  background-color: var(--black);
+
+  color: var(--white);
+}
+
+header .inner {
+  padding: 0 var(--unit);
+  height: inherit;
+}
+
+header a {
+  color: var(--white);
+}
+
+header .columns {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  width: 100%;
+  height: inherit;
+}
+
+header .columns .column {
+  width: 33.33%;
+}
+
+header .columns .column:nth-child(2) {
+  text-align: center;
+}
+
+header .columns .column:nth-child(3) {
+  text-align: right;
+}
+
+header button {
+  margin-left: calc(var(--unit) * 1);
+}
+
+/* -------------------------- */
+
+.content {
+  margin-top: calc(var(--unit) * 3);
+  padding: calc(var(--unit) * 2);
+}
+
+/* -------------------------- */
+
+button {
+  -webkit-appearance: none;
+  border-radius: 0;
+  border: 0;
+  outline: 0;
+  margin: 0;
+  padding: 0;
+  background: none;
+
+  cursor: pointer;
+  padding: calc(var(--unit) * 0.25) calc(var(--unit) * 0.5);
+  background-color: var(--white);
+
+  font-family: 'Press Start 2P', cursive;
+  font-size: 8px;
+  line-height: 16px;
+  color: var(--black);
+}
+
+button:hover {
+  background-color: red;
+}
+
+button:focus {
+  background-color: green;
+}
+
+button:active {
+  background-color: blue;
+}
+
+/* -------------------------- */
+
+.LazyTokenGrid:nth-child(n+2) {
+  margin-top: calc(var(--unit) * 4);
+}
+
+.TokenGrid {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.TokenGrid .Token {
+  width: calc(1/8 * 100% - (1 - 1/8) * (var(--unit) * 1));
+}
+
+.TokenGrid .Token:nth-child(n+9) {
+  margin-top: calc(var(--unit) * 2);
+}
+
+@media screen and (max-width: 1350px) {
+  .TokenGrid .Token {
+    width: calc(1/6 * 100% - (1 - 1/6) * (var(--unit) * 1));
+  }
+
+  .TokenGrid .Token:nth-child(n+7) {
+    margin-top: calc(var(--unit) * 2);
+  }
+}
+
+@media screen and (max-width: 900px) {
+  .TokenGrid .Token {
+    width: calc(1/4 * 100% - (1 - 1/4) * (var(--unit) * 1));
+  }
+
+  .TokenGrid .Token:nth-child(n+5) {
+    margin-top: calc(var(--unit) * 2);
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .TokenGrid .Token {
+    width: calc(1/2 * 100% - (1 - 1/2) * (var(--unit) * 1));
+  }
+
+  .TokenGrid .Token:nth-child(n+3) {
+    margin-top: calc(var(--unit) * 2);
+  }
+}
+
+.TokenGrid .Token a {
+  display: block;
+
+  color: var(--black);
+}
+
+.TokenGrid .Token .Token__Metadata {
+  /*padding: calc(var(--unit) * 1);
+  background-color: var(--black);*/
+  padding-top: calc(var(--unit) * 1);
+}
+
+.TokenGrid .Token .Token__Metadata .Token__Cols {
+  display: flex;
+  flex-wrap: nowrap;
+  width: 100%;
+}
+
+.Token__Editions,
+.Token__Price {
+  width: 50%;
+}
+
+.Token__Price {
+  text-align: right;
+}
+
+.Token__Creator {
+  overflow: hidden;
+  /*width: 120px;*/
+  width: calc(var(--pixel) * 6);
+
+  white-space: nowrap; 
+  text-overflow: ellipsis;
+}
+
+.LoadMoreButton {
+  border-radius: 0 !important;
+  border: 0 !important;
+  outline: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  background: none !important;
+
+  cursor: pointer;
+  margin-top: calc(var(--unit) * 2) !important;
+  padding: calc(var(--unit) * 0.25) calc(var(--unit) * 0.5) !important;
+  width: 100% !important;
+  background-color: var(--black) !important;
+
+  font-family: 'Press Start 2P', cursive !important;
+  font-size: 8px !important;
+  line-height: 16px !important;
+  color: var(--white) !important;
+}
+
+.LoadMoreButton:hover {
+  background-color: red !important;
+}
+
+.LoadMoreButton:focus {
+  background-color: green !important;
+}
+
+.LoadMoreButton:active {
+  background-color: blue !important;
+}
+
+/* -------------------------- */
+
 .Preview {
-  width: calc(8 * var(--pixel-size));
+  /*width: calc(8 * var(--pixel-size));*/
+  width: 100%;
+}
+
+.Preview__Pixel {
+  float: left;
+  /*width: var(--pixel-size);
+  height: var(--pixel-size);*/
+  /*width: calc(100% / 8);*/
+  width: var(--pixel);
+  height: var(--pixel);
 }
 
 .Preview--large {
   width: calc(8 * var(--pixel-size-large));
 }
 
-.Preview__Pixel {
-  width: var(--pixel-size);
-  height: var(--pixel-size);
-  float: left;
-}
-
 .Preview--large .Preview__Pixel {
   width: var(--pixel-size-large);
   height: var(--pixel-size-large);
-}
-
-.TokenGrid {
-  display: flex;
-  flex-wrap: wrap;
-}
-
-.TokenGrid .Token {
-  padding: 10px;
 }

@@ -14,7 +14,7 @@ function LazyLoadTokenGrid({
   headline,
   variables = {},
   swrParams = [],
-  itemsPerLoad = 100,
+  itemsPerLoad = 24,
   resultsPath = 'tokens',
   tokenPath = '',
   keyPath = 'token_id',
@@ -47,7 +47,7 @@ function LazyLoadTokenGrid({
     return (
       <div className="LazyTokenGrid LazyTokenGrid--Loading">
         <h2>{headline}</h2>
-        <em>loading</em>
+        <span>LOADING...</span>
       </div>
     );
   }
@@ -71,6 +71,7 @@ function LazyLoadTokenGrid({
       {hasProbablyMore && (
         <div className="LazyTokenGrid__More">
           <LoadingButton
+            className="LoadMoreButton"
             loading={isValidating}
             onClick={() => {
               const newLimit = limit + itemsPerLoad;
@@ -78,7 +79,7 @@ function LazyLoadTokenGrid({
               setSearchParams({ [namespace]: newLimit });
             }}
           >
-            load more
+            MORE PIXELS
           </LoadingButton>
         </div>
       )}

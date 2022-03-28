@@ -6,10 +6,23 @@ function Layout({ children }) {
   return (
     <Box>
       <header>
-        <SyncButton />
-        <Link to="/">Home</Link>
+        <div className="inner">
+          <div className="columns">
+            <div className="column">
+              <Link to="/">Home</Link>
+            </div>
+            <div className="column">
+              8bidou &times; TezTok
+            </div>
+            <div className="column">
+              <SyncButton />
+            </div>
+          </div>
+        </div>
       </header>
-      {children}
+      <div className="content">
+        {children}
+      </div>
     </Box>
   );
 }
