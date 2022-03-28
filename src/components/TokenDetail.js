@@ -180,7 +180,7 @@ function TokenDetail() {
           <div>#{token.token_id}</div>
           <div>
             <strong>creator:</strong>
-            {token.eightbid_creator_name}
+            <UserLink field="artist" data={token} label={token.eightbid_creator_name} />
           </div>
           <div>
             <strong>name:</strong>
@@ -204,14 +204,15 @@ function TokenDetail() {
         </div>
 
         <Preview rgb={token.eightbid_rgb} large />
+
+        <CreationsTokenGrid headline="All creations by this artist" address={token.artist_address} />
+
         <h2>Listings</h2>
         <ListingsTable listings={token.listings} />
         <h2>Sales</h2>
         <SalesTable sales={token.events} />
         <h2>Holders</h2>
         <Holdings holdings={token.holdings} />
-
-        <CreationsTokenGrid headline="All creations by this artist" address={token.artist_address} />
 
         <pre>{JSON.stringify(token, null, 2)}</pre>
       </div>

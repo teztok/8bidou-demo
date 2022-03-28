@@ -11,6 +11,7 @@ function Token({ token }) {
           <div className="Token__Price">price: {token.price !== null ? <Price amount={token.price} /> : '-'}</div>
           <div className="Token__Editions">editions: {token.editions}</div>
           <div className="Token__SalesCount">sales: {token.sales_count}</div>
+          <div className="Token__Creator">creator: {token.eightbid_creator_name}</div>
         </div>
       </Link>
     </div>
