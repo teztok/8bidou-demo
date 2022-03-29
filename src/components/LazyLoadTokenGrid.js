@@ -19,7 +19,7 @@ function LazyLoadTokenGrid({
   tokenPath = '',
   keyPath = 'token_id',
   refreshInterval = false,
-  emptyMessage = 'No pixels!',
+  emptyMessage = 'NO CREATIONS!',
   filter = (token) => token,
 }) {
   const [searchParams, setSearchParams] = useSearchParams();

@@ -1,6 +1,5 @@
 import { useWallet } from '@tezos-contrib/react-wallet-provider';
 import Button from '@mui/material/Button';
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import { TezosToolkit } from '@taquito/taquito';
 import { BeaconWallet } from '@taquito/beacon-wallet';
 import { MARKETPLACE_CONTRACT_8X8_COLOR } from '../consts';
@@ -34,7 +33,7 @@ export default function BuyButton({ swapId, amount }) {
       }}
       variant="outlined"
       size="small"
-      endIcon={<ShoppingCartIcon />}
+      className="BuyButton"
     >
       Buy for&nbsp;
       <Price amount={amount} />

@@ -10,22 +10,22 @@
   --fs-headline: 16px;
   --lh-headline: 16px;
 
-  --pixel-size: 10px;
-  --pixel-size-large: 20px;
+  --fs-big: 32px;
+  --lh-big: 32px;
 
   --pixel: calc((100vw - (var(--unit) * 11)) / 64);
-  --pixel-large: calc(((100vw * 0.5) - (var(--unit) * 3)) / 8);
+  --pixel-large: calc(((100vw * 0.33) - (var(--unit) * 3)) / 8);
 }
 
 @media screen and (max-width: 1350px) {
   :root {
-    --pixel: calc((100vw - (var(--unit) * 9)) / 52);
+    --pixel: calc((100vw - (var(--unit) * 9)) / 50);
   }
 }
 
 @media screen and (max-width: 900px) {
   :root {
-    --pixel: calc((100vw - (var(--unit) * 7)) / 34);
+    --pixel: calc((100vw - (var(--unit) * 7)) / 32);
     --pixel-large: calc((100vw - (var(--unit) * 4)) / 8);
   }
 }
@@ -50,11 +50,17 @@ a {
 
 /* -------------------------- */
 
+h1,
 h2,
 h3 {
   margin: 0;
 
   font-weight: normal;
+}
+
+h1 {
+  font-size: var(--fs-big);
+  line-height: var(--lh-big);
 }
 
 h2 {
@@ -159,20 +165,27 @@ button {
 
   font-family: 'Press Start 2P', cursive;
   font-size: 8px;
+  font-weight: normal !important;
   line-height: 16px;
   color: var(--black);
 }
 
+button.ButtonInvert {
+  background-color: var(--black);
+
+  color: var(--white);
+}
+
 button:hover {
-  background-color: red;
+  background-color: lightcoral;
 }
 
 button:focus {
-  background-color: green;
+  background-color: lightgreen;
 }
 
 button:active {
-  background-color: blue;
+  background-color: lightblue;
 }
 
 /* -------------------------- */
@@ -223,6 +236,10 @@ button:active {
   .TokenGrid .Token {
     margin-right: calc(var(--unit) * 1);
     width: calc(1 / 4 * 100% - (1 - 1 / 4) * (var(--unit) * 1));
+  }
+
+  .TokenGrid .Token:nth-child(6n + 6) {
+    margin-right: calc(var(--unit) * 1);
   }
 
   .TokenGrid .Token:nth-child(4n + 4) {
@@ -286,7 +303,8 @@ button:active {
   text-overflow: ellipsis;
 }
 
-.LoadMoreButton {
+.LoadMoreButton,
+.BuyButton {
   border-radius: 0 !important;
   border: 0 !important;
   outline: 0 !important;
@@ -302,26 +320,42 @@ button:active {
 
   font-family: 'Press Start 2P', cursive !important;
   font-size: 8px !important;
+  font-weight: normal !important;
   line-height: 16px !important;
   color: var(--white) !important;
 }
 
-.LoadMoreButton:hover {
-  background-color: red !important;
+.BuyButton {
+  width: auto !important;
 }
 
-.LoadMoreButton:focus {
-  background-color: green !important;
+.LoadMoreButton:hover,
+.BuyButton:hover {
+  background-color: lightcoral !important;
 }
 
-.LoadMoreButton:active {
-  background-color: blue !important;
+.LoadMoreButton:focus,
+.BuyButton:focus {
+  background-color: lightgreen !important;
+}
+
+.LoadMoreButton:active,
+.BuyButton:active {
+  background-color: lightblue !important;
 }
 
 /* -------------------------- */
 
 .Preview {
+  pointer-events: none;
   width: 100%;
+}
+
+@media (hover: hover) {
+  .Token a:hover .Preview {
+    transform: translate3d(-8px, -8px, 0);
+    box-shadow: 8px 8px 0 rgba(0, 0, 0, 1);
+  }
 }
 
 .Preview__Pixel {
@@ -331,7 +365,7 @@ button:active {
 }
 
 .Preview--large {
-  width: calc((100vw * 0.5) - (var(--unit) * 3));
+  width: calc((100vw * 0.33) - (var(--unit) * 3));
 }
 
 @media screen and (max-width: 900px) {
@@ -381,8 +415,16 @@ button:active {
   color: var(--black);
 }
 
+.TokenWrapperColumns {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  width: 100%;
+}
+
 .TokenWrapper {
   margin-top: calc(var(--unit) * 4);
+  width: calc(1 / 2 * 100% - (1 - 1 / 2) * (var(--unit) * 4));
 }
 
 .LoadingLayer {
@@ -416,4 +458,62 @@ button:active {
 
 .Sales ul li {
   list-style: none;
+}
+
+.Price .Taco {
+  display: inline-block;
+  margin-left: 3px;
+  transform: translate3d(0, -1px, 0);
+}
+
+.SalesTable,
+.HoldingsTable,
+.ListingsTable {
+  width: 100%;
+}
+
+.HoldingsTable {
+  margin-top: calc(var(--unit) * 1);
+}
+
+.HoldingsTable:first-child {
+  margin-top: 0;
+}
+
+.SalesTable a,
+.HoldingsTable a,
+.ListingsTable a {
+  color: var(--black);
+}
+
+.SalesTable td.SalesTable__Price,
+.SalesTable td.SalesTable__Time {
+  text-align: right;
+}
+
+.ListingsTable tr td:nth-child(2) {
+  text-align: right;
+}
+
+.ListingsTable button {
+  margin-top: 0 !important;
+}
+
+.Intro {
+  margin-top: calc(var(--unit) * 2);
+
+  text-align: center;
+}
+
+.Intro p {
+  margin: calc(var(--unit) * 2) auto 0 auto;
+  width: 40%;
+}
+
+.Intro .ButtonGroup {
+  margin-top: calc(var(--unit) * 2);
+}
+
+.Intro .ButtonGroup button {
+  margin: 0 calc(var(--unit) * 1);
 }

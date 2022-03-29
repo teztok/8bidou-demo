@@ -92,20 +92,27 @@ function useToken(tokenId) {
 
 function Sales({ sales }) {
   if (!sales.length) {
-    return <div className="Sales">no sales yet</div>;
+    return <div className="Sales">NO SALES!</div>;
   }
 
   return (
     <div className="Sales">
-      <ul>
+      <table className="SalesTable">
         {sales.map((sale) => (
-          <li key={sale.opid}>
-            {sale.amount} x <UserLink data={sale} field="seller" /> ➔ <UserLink data={sale} field="buyer" /> for{' '}
-            <Price amount={sale.price} /> &nbsp;(
-            <ReactTimeAgo date={new Date(sale.timestamp)} />)
-          </li>
+          <tr>
+            <td>{sale.amount} x</td>
+            <td>
+              <UserLink data={sale} field="seller" /> ➔ <UserLink data={sale} field="buyer" />
+            </td>
+            <td className="SalesTable__Price">
+              <Price amount={sale.price} />
+            </td>
+            <td className="SalesTable__Time">
+              <ReactTimeAgo date={new Date(sale.timestamp)} />
+            </td>
+          </tr>
         ))}
-      </ul>
+      </table>
     </div>
   );
 }
@@ -114,18 +121,33 @@ function ListingsAndHoldings({ holdings, listings }) {
   const holdingsFiltered = holdings.filter(({ holder_address }) => holder_address !== MARKETPLACE_CONTRACT_8X8_COLOR);
   return (
     <div className="ListingsAndHoldings">
-      <ul>
-        {listings.map((listing) => (
-          <li key={listing.swap_id}>
-            {listing.amount_left} x <UserLink data={listing} field="seller" /> <BuyButton amount={listing.price} swapId={listing.swap_id} />
-          </li>
-        ))}
-        {holdingsFiltered.map((holding) => (
-          <li key={holding.holder_address}>
-            {holding.amount} x <UserLink data={holding} field="holder" />
-          </li>
-        ))}
-      </ul>
+      {listings.length > 0 && (
+        <table className="ListingsTable">
+          <tbody>
+            {listings.map((listing) => (
+              <tr key={listing.swap_id}>
+                <td>
+                  {listing.amount_left} x <UserLink data={listing} field="seller" />
+                </td>
+                <td>
+                  <BuyButton amount={listing.price} swapId={listing.swap_id} />
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      )}
+      <table className="HoldingsTable">
+        <tbody>
+          {holdingsFiltered.map((holding) => (
+            <tr key={holding.holder_address}>
+              <td>
+                {holding.amount} x <UserLink data={holding} field="holder" />
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 }
@@ -155,6 +177,7 @@ function TokenDetail() {
         <div className="Token__Cols">
           <div className="TokenDetail__Thumbnail">
             <Preview rgb={token.eightbid_rgb} large />
+            {token.listings.length ? <BuyButton amount={token.listings[0].price} swapId={token.listings[0].swap_id} /> : null}
           </div>
           <div className="TokenDetail__Meta">
             <h3>
@@ -196,27 +219,23 @@ function TokenDetail() {
               <br />
               {new Date(token.minted_at).toLocaleDateString()}
             </div>
-            <div className="TokenDetail__MetaInfo">
-              {token.listings.length ? <BuyButton amount={token.listings[0].price} swapId={token.listings[0].swap_id} /> : null}
-            </div>
           </div>
         </div>
 
-        <div className="TokenWrapper">
-          <h2>Listings</h2>
-          <ListingsAndHoldings holdings={token.holdings} listings={token.listings} />
+        <div className="TokenWrapperColumns">
+          <div className="TokenWrapper">
+            <h2>Listings</h2>
+            <ListingsAndHoldings holdings={token.holdings} listings={token.listings} />
+          </div>
+          <div className="TokenWrapper">
+            <h2>Sales</h2>
+            <Sales sales={token.events} />
+          </div>
         </div>
 
-        <div className="TokenWrapper">
-          <h2>Sales</h2>
-          <Sales sales={token.events} />
-        </div>
+        <CreationsTokenGrid headline="More creations" address={token.artist_address} filter={(t) => token.token_id !== t.token_id} />
 
-        <CreationsTokenGrid
-          headline="Other pixels from this artist"
-          address={token.artist_address}
-          filter={(t) => token.token_id !== t.token_id}
-        />
+        <pre>{JSON.stringify(token, null, 2)}</pre>
       </div>
     </Layout>
   );

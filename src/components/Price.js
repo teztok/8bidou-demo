@@ -3,5 +3,10 @@ export default function Price({ amount }) {
   if (priceFixed.endsWith('.00')) {
     priceFixed = priceFixed.slice(0, -3);
   }
-  return <span className="Price">{`${priceFixed}🌮`}</span>;
+  return (
+    <span className="Price">
+      {`${priceFixed}`}
+      <span className="Taco">🌮</span>
+    </span>
+  );
 }

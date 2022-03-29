@@ -10,7 +10,7 @@ function LatestMintsTokenGrid() {
       resultsPath="mint_events"
       tokenPath="token"
       keyPath="token.token_id"
-      refreshInterval={500000}
+      refreshInterval={5000}
       query={gql`
         query getLatestMints($limit: Int!) {
           mint_events: events(

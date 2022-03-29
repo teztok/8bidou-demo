@@ -94,7 +94,7 @@ function UserDetail() {
   return (
     <Layout>
       <div className="UserDetail">
-        <h2>{activeAccount?.address === address ? 'My Profile' : address}</h2>
+        <h2>{activeAccount?.address === address ? 'My Profile' : address + '`s Profile'}</h2>
         <div className="UserDetail__Meta">
           {get(user, 'alias') ? (
             <div className="UserDetail__MetaInfo">
