@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import TokenDetail from './components/TokenDetail';
 import UserDetail from './components/UserDetail';
 import Home from './components/Home';
+import NotFound from './components/NotFound';
 import { Routes, Route, useLocation } from 'react-router-dom';
 
 function App() {
@@ -17,6 +18,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="token/:tokenId" element={<TokenDetail />} />
         <Route path="user/:address" element={<UserDetail />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </div>
   );

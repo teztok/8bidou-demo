@@ -92,10 +92,6 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
 
-pre {
-  display: none;
-}
-
 /* -------------------------- */
 
 header {
@@ -377,11 +373,11 @@ button:active {
   }
 }
 
-.TokenDetail__Meta__Info {
+.TokenDetail__MetaInfo {
   margin-top: calc(var(--unit) * 0.75);
 }
 
-.TokenDetail__Meta__Info a {
+.TokenDetail__MetaInfo a {
   color: var(--black);
 }
 

@@ -1,11 +1,15 @@
 import useSWR from 'swr';
+import get from 'lodash/get';
 import { request, gql } from 'graphql-request';
 import { useParams } from 'react-router-dom';
 import ReactTimeAgo from 'react-time-ago';
+import TwitterIcon from '@mui/icons-material/Twitter';
 import Preview from './Preview';
 import UserLink from './UserLink';
 import Price from './Price';
 import Layout from './Layout';
+import Error from './Error';
+import NotFound from './NotFound';
 import LoadingLayer from './LoadingLayer';
 import BuyButton from './BuyButton';
 import CreationsTokenGrid from './CreationsTokenGrid';
@@ -28,6 +32,7 @@ const TokenQuery = gql`
       artist_profile {
         alias
         description
+        twitter
       }
       listings(where: { status: { _eq: "active" } }, order_by: { price: asc }) {
         seller_address
@@ -72,12 +77,16 @@ const TokenQuery = gql`
 `;
 
 function useToken(tokenId) {
-  const { data, error } = useSWR(['/token', tokenId], (key, tokenId) => request(TEZTOK_API, TokenQuery, { tokenId }));
+  const { data, error, isValidating } = useSWR(['/token', tokenId], (key, tokenId) => request(TEZTOK_API, TokenQuery, { tokenId }), {
+    revalidateIfStale: false,
+    revalidateOnFocus: false,
+  });
 
   return {
     token: data && data.token,
+    doesNotExist: data && data.token === null,
     error,
-    isLoading: !data,
+    isLoading: isValidating,
   };
 }
 
@@ -123,13 +132,22 @@ function ListingsAndHoldings({ holdings, listings }) {
 
 function TokenDetail() {
   const { tokenId } = useParams();
-  const { isLoading, token } = useToken(tokenId);
+  const { isLoading, token, doesNotExist, error } = useToken(tokenId);
 
-  if (isLoading) {
+  if (error) {
+    return <Error error={error} />;
+  }
+
+  if (doesNotExist) {
+    return <NotFound />;
+  }
+
+  if (!token || isLoading) {
     return <LoadingLayer />;
   }
 
   const backgroundColor = hexToRGB(getPrimaryHexColor(token.eightbid_rgb), 0.25);
+  const twitter = get(token, 'artist_profile.twitter');
 
   return (
     <Layout backgroundColor={backgroundColor}>
@@ -142,36 +160,43 @@ function TokenDetail() {
             <h3>
               <a href={`https://www.8bidou.com/item_detail/?id=${token.token_id}`}>#{token.token_id}</a>
               <br />
+              {twitter ? (
+                <>
+                  <a href={`https://twitter.com/${twitter}`}>
+                    <TwitterIcon fontSize="small" />
+                  </a>
+                </>
+              ) : null}
               <UserLink field="artist" data={token} label={token.eightbid_creator_name} />
             </h3>
 
-            <div className="TokenDetail__Meta__Info">
+            <div className="TokenDetail__MetaInfo">
               <span>TITLE</span>
               <br />
               {token.name}
             </div>
 
-            <div className="TokenDetail__Meta__Info">
+            <div className="TokenDetail__MetaInfo">
               <span>DESCRIPTION</span>
               <br />
               {token.description}
             </div>
-            <div className="TokenDetail__Meta__Info">
+            <div className="TokenDetail__MetaInfo">
               <span>EDITIONS</span>
               <br />
               {token.editions}
             </div>
-            <div className="TokenDetail__Meta__Info">
+            <div className="TokenDetail__MetaInfo">
               <span>SALES</span>
               <br />
               {token.sales_count}
             </div>
-            <div className="TokenDetail__Meta__Info">
+            <div className="TokenDetail__MetaInfo">
               <span>MINTED</span>
               <br />
               {new Date(token.minted_at).toLocaleDateString()}
             </div>
-            <div className="TokenDetail__Meta__Info">
+            <div className="TokenDetail__MetaInfo">
               {token.listings.length ? <BuyButton amount={token.listings[0].price} swapId={token.listings[0].swap_id} /> : null}
             </div>
           </div>
@@ -181,6 +206,7 @@ function TokenDetail() {
           <h2>Listings</h2>
           <ListingsAndHoldings holdings={token.holdings} listings={token.listings} />
         </div>
+
         <div className="TokenWrapper">
           <h2>Sales</h2>
           <Sales sales={token.events} />
@@ -191,8 +217,6 @@ function TokenDetail() {
           address={token.artist_address}
           filter={(t) => token.token_id !== t.token_id}
         />
-
-        <pre>{JSON.stringify(token, null, 2)}</pre>
       </div>
     </Layout>
   );
