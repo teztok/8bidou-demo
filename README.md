@@ -3,4 +3,8 @@
 ## Setup
 
 * `npm install`
-* `npm run`
+* `npm start`
+
+## License
+
+Licensed under the MIT license.
