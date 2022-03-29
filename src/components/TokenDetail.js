@@ -207,7 +207,7 @@ function TokenDetail() {
             </div>
 
             <div className="TokenDetail__8bidou">
-              <a href={`https://www.8bidou.com/item_detail/?id=${token.token_id}`} className="ButtonInvert">
+              <a href={`https://www.8bidou.com/listing/?id=${token.token_id}`} className="ButtonInvert">
                 Open #{token.token_id} on 8bidou
               </a>
             </div>
