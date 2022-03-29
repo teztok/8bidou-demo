@@ -19,7 +19,9 @@
 
 @media screen and (max-width: 1350px) {
   :root {
-    --pixel: calc((100vw - (var(--unit) * 9)) / 58);
+    /*--pixel: calc((100vw - (var(--unit) * 9)) / 58);*/
+    /* Grid Glitch Fix */
+    --pixel: calc((100vw - (var(--unit) * 9)) / 57);
   }
 }
 
@@ -400,9 +402,18 @@ button:active {
 
 .Preview {
   pointer-events: none;
-  display: flex;
+  /*display: flex;
   flex-wrap: wrap;
+  width: 100%;*/
+  display: grid;
   width: 100%;
+  grid-template-columns: repeat(8, 1fr);
+}
+
+@media screen and (min-width: 900px) and (max-width: 1350px) {
+  .Preview {
+    /*border-top: 20px solid lightcoral;*/
+  }
 }
 
 @media (hover: hover) {
