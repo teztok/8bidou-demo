@@ -15,7 +15,7 @@ function Home() {
               8bidou<span> &times; </span>TezTok
             </h1>
             <p>
-              This is a fully functional technolgy demo of the{' '}
+              This is a fully functional technology demo of the{' '}
               <a href="https://www.teztok.com" rel="noreferrer">
                 TezTok
               </a>{' '}
