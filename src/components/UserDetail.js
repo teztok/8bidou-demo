@@ -5,7 +5,6 @@ import { validateAddress, ValidationResult } from '@taquito/utils';
 import { useParams } from 'react-router-dom';
 import Layout from './Layout';
 import { useWallet } from '@tezos-contrib/react-wallet-provider';
-import { shortenTzAddress } from '../libs/utils';
 import CreationsTokenGrid from './CreationsTokenGrid';
 import InventoryTokenGrid from './InventoryTokenGrid';
 import Price from './Price';
@@ -84,10 +83,18 @@ function UserDetail() {
     return <LoadingLayer />;
   }
 
+  let creationsHeadline;
+
+  if (totalCreations > 0) {
+    creationsHeadline = `${totalCreations} Creation${totalCreations !== 1 ? 's' : ''}`;
+  } else {
+    creationsHeadline = 'Creations';
+  }
+
   return (
     <Layout>
       <div className="UserDetail">
-        <h2>{activeAccount?.address === address ? 'My Profile' : shortenTzAddress(address)}</h2>
+        <h2>{activeAccount?.address === address ? 'My Profile' : address}</h2>
         <div className="UserDetail__Meta">
           {get(user, 'alias') ? (
             <div className="UserDetail__MetaInfo">
@@ -126,7 +133,7 @@ function UserDetail() {
           </div>
         </div>
 
-        <CreationsTokenGrid address={address} headline={`${totalCreations} Creation${totalCreations !== 1 ? 's' : ''}`} />
+        <CreationsTokenGrid address={address} headline={creationsHeadline} />
         <InventoryTokenGrid address={address} />
       </div>
     </Layout>
