@@ -2,6 +2,7 @@ import useSWR from 'swr';
 import { request, gql } from 'graphql-request';
 import get from 'lodash/get';
 import { validateAddress, ValidationResult } from '@taquito/utils';
+import { shortenTzAddress } from '../libs/utils';
 import { useParams } from 'react-router-dom';
 import Layout from './Layout';
 import { useWallet } from '@tezos-contrib/react-wallet-provider';
@@ -94,24 +95,20 @@ function UserDetail() {
   return (
     <Layout>
       <div className="UserDetail">
-        <h2>{activeAccount?.address === address ? 'My Profile' : address + '`s Profile'}</h2>
+        <h2>{activeAccount?.address === address ? 'My Profile' : shortenTzAddress(address) + '`s Profile'}</h2>
         <div className="UserDetail__Meta">
-          {get(user, 'alias') ? (
-            <div className="UserDetail__MetaInfo">
-              <span>ALIAS</span>
-              <br />
-              {user.alias}
-            </div>
-          ) : null}
+          <div className="UserDetail__MetaInfo">
+            <span>ALIAS</span>
+            <br />
+            {get(user, 'alias') ? <>{user.alias}</> : '–'}
+          </div>
 
-          {get(user, 'twitter') ? (
-            <div className="UserDetail__MetaInfo">
-              <span>TWITTER</span>
-              <br />
-              <a href={`https://twitter.com/${user.twitter}`}>@{user.twitter}</a>
-            </div>
-          ) : null}
-
+          <div className="UserDetail__MetaInfo">
+            <span>TWITTER</span>
+            <br />
+            {get(user, 'twitter') ? <a href={`https://twitter.com/${user.twitter}`}>@{user.twitter}</a> : '–'}
+          </div>
+          {/*
           {get(user, 'description') ? (
             <div className="UserDetail__MetaInfo">
               <span>DESCRIPTION</span>
@@ -119,7 +116,7 @@ function UserDetail() {
               {user.description}
             </div>
           ) : null}
-
+*/}
           <div className="UserDetail__MetaInfo">
             <span>TACOS SPENT</span>
             <br />
@@ -127,7 +124,7 @@ function UserDetail() {
           </div>
 
           <div className="UserDetail__MetaInfo">
-            <span>TACOS CLAIMED</span>
+            <span>TACOS EARNED</span>
             <br />
             <Price amount={salesVolume} />
           </div>

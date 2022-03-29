@@ -92,26 +92,30 @@ function useToken(tokenId) {
 
 function Sales({ sales }) {
   if (!sales.length) {
-    return <div className="Sales">NO SALES!</div>;
+    return <div className="Sales">...</div>;
   }
 
   return (
     <div className="Sales">
       <table className="SalesTable">
-        {sales.map((sale) => (
-          <tr>
-            <td>{sale.amount} x</td>
-            <td>
-              <UserLink data={sale} field="seller" /> ➔ <UserLink data={sale} field="buyer" />
-            </td>
-            <td className="SalesTable__Price">
-              <Price amount={sale.price} />
-            </td>
-            <td className="SalesTable__Time">
-              <ReactTimeAgo date={new Date(sale.timestamp)} />
-            </td>
-          </tr>
-        ))}
+        <tbody>
+          {sales.map((sale) => (
+            <tr key={sale.opid}>
+              <td>{sale.amount} x</td>
+              <td>
+                <UserLink data={sale} field="seller" />
+                <span> ➔ </span>
+                <UserLink data={sale} field="buyer" />
+              </td>
+              <td className="SalesTable__Price">
+                <Price amount={sale.price} />
+              </td>
+              <td className="SalesTable__Time">
+                <ReactTimeAgo date={new Date(sale.timestamp)} />
+              </td>
+            </tr>
+          ))}
+        </tbody>
       </table>
     </div>
   );
@@ -181,16 +185,14 @@ function TokenDetail() {
           </div>
           <div className="TokenDetail__Meta">
             <h3>
-              <a href={`https://www.8bidou.com/item_detail/?id=${token.token_id}`}>#{token.token_id}</a>
-              <br />
+              <UserLink field="artist" data={token} label={token.eightbid_creator_name.trim()} />
               {twitter ? (
                 <>
-                  <a href={`https://twitter.com/${twitter}`}>
+                  <a href={`https://twitter.com/${twitter}`} className="TwitterLink">
                     <TwitterIcon fontSize="small" />
                   </a>
                 </>
               ) : null}
-              <UserLink field="artist" data={token} label={token.eightbid_creator_name} />
             </h3>
 
             <div className="TokenDetail__MetaInfo">
@@ -198,26 +200,34 @@ function TokenDetail() {
               <br />
               {token.name}
             </div>
-
             <div className="TokenDetail__MetaInfo">
               <span>DESCRIPTION</span>
               <br />
               {token.description}
             </div>
-            <div className="TokenDetail__MetaInfo">
-              <span>EDITIONS</span>
-              <br />
-              {token.editions}
+
+            <div className="TokenDetail__8bidou">
+              <a href={`https://www.8bidou.com/item_detail/?id=${token.token_id}`} className="ButtonInvert">
+                Open #{token.token_id} on 8bidou
+              </a>
             </div>
-            <div className="TokenDetail__MetaInfo">
-              <span>SALES</span>
-              <br />
-              {token.sales_count}
-            </div>
-            <div className="TokenDetail__MetaInfo">
-              <span>MINTED</span>
-              <br />
-              {new Date(token.minted_at).toLocaleDateString()}
+
+            <div className="Token__Subcols">
+              <div className="TokenDetail__MetaInfo">
+                <span>EDITIONS</span>
+                <br />
+                {token.editions}
+              </div>
+              <div className="TokenDetail__MetaInfo">
+                <span>SALES</span>
+                <br />
+                {token.sales_count}
+              </div>
+              <div className="TokenDetail__MetaInfo">
+                <span>MINTED</span>
+                <br />
+                {new Date(token.minted_at).toLocaleDateString()}
+              </div>
             </div>
           </div>
         </div>

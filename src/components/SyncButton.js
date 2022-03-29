@@ -6,11 +6,11 @@ export default function SyncButton() {
 
   return (
     <div>
-      {!activeAccount && <button onClick={connect}>Connect</button>}
+      {!activeAccount && <button onClick={connect}>Sync</button>}
       {activeAccount && (
         <div>
           <Link to={`/user/${activeAccount?.address}`}>My Profile</Link>
-          <button onClick={disconnect}>Disconnect</button>
+          <button onClick={disconnect}>Unsync</button>
         </div>
       )}
     </div>

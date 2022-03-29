@@ -8,7 +8,7 @@
   --lh-body: 16px;
 
   --fs-headline: 16px;
-  --lh-headline: 16px;
+  --lh-headline: 22px;
 
   --fs-big: 32px;
   --lh-big: 32px;
@@ -19,7 +19,7 @@
 
 @media screen and (max-width: 1350px) {
   :root {
-    --pixel: calc((100vw - (var(--unit) * 9)) / 50);
+    --pixel: calc((100vw - (var(--unit) * 9)) / 58);
   }
 }
 
@@ -27,6 +27,13 @@
   :root {
     --pixel: calc((100vw - (var(--unit) * 7)) / 32);
     --pixel-large: calc((100vw - (var(--unit) * 4)) / 8);
+  }
+}
+
+@media screen and (max-width: 640px) {
+  :root {
+    --fs-big: 16px;
+    --lh-big: 16px;
   }
 }
 
@@ -65,7 +72,7 @@ h1 {
 
 h2 {
   margin: 0 0 calc(var(--unit) * 2) 0;
-  padding: 0 0 calc(var(--unit) * 1.5);
+  padding: 0 0 calc(var(--unit) * 1.3);
   border-bottom: 4px solid var(--black);
 
   font-size: var(--fs-headline);
@@ -121,6 +128,12 @@ header a {
   color: var(--white);
 }
 
+@media (hover: hover) {
+  header a:hover {
+    color: blue;
+  }
+}
+
 header .columns {
   display: flex;
   flex-wrap: nowrap;
@@ -139,6 +152,17 @@ header .columns .column:nth-child(2) {
 
 header button {
   margin-left: calc(var(--unit) * 1);
+}
+
+@media screen and (max-width: 600px) {
+  header .columns .column:first-child,
+  header .columns .column:last-child {
+    width: auto;
+  }
+
+  header .columns .column:last-child {
+    margin-left: auto;
+  }
 }
 
 /* -------------------------- */
@@ -170,6 +194,10 @@ button {
   color: var(--black);
 }
 
+button.Mui-disabled {
+  opacity: 0.25;
+}
+
 button.ButtonInvert {
   background-color: var(--black);
 
@@ -177,15 +205,21 @@ button.ButtonInvert {
 }
 
 button:hover {
-  background-color: lightcoral;
+  background-color: blue;
+
+  color: var(--white);
 }
 
 button:focus {
-  background-color: lightgreen;
+  background-color: green;
+
+  color: var(--white);
 }
 
 button:active {
-  background-color: lightblue;
+  background-color: red;
+
+  color: var(--white);
 }
 
 /* -------------------------- */
@@ -220,14 +254,14 @@ button:active {
 @media screen and (max-width: 1350px) {
   .TokenGrid .Token {
     margin-right: calc(var(--unit) * 1);
-    width: calc(1 / 6 * 100% - (1 - 1 / 6) * (var(--unit) * 1));
+    width: calc(1 / 7 * 100% - (1 - 1 / 7) * (var(--unit) * 1));
   }
 
-  .TokenGrid .Token:nth-child(6n + 6) {
+  .TokenGrid .Token:nth-child(7n + 7) {
     margin-right: 0;
   }
 
-  .TokenGrid .Token:nth-child(n + 7) {
+  .TokenGrid .Token:nth-child(n + 8) {
     margin-top: calc(var(--unit) * 2);
   }
 }
@@ -238,12 +272,12 @@ button:active {
     width: calc(1 / 4 * 100% - (1 - 1 / 4) * (var(--unit) * 1));
   }
 
-  .TokenGrid .Token:nth-child(6n + 6) {
-    margin-right: calc(var(--unit) * 1);
+  .TokenGrid .Token {
+    margin-right: calc(var(--unit) * 1) !important;
   }
 
   .TokenGrid .Token:nth-child(4n + 4) {
-    margin-right: 0;
+    margin-right: 0 !important;
   }
 
   .TokenGrid .Token:nth-child(n + 5) {
@@ -257,8 +291,12 @@ button:active {
     width: calc(1 / 2 * 100% - (1 - 1 / 2) * (var(--unit) * 1));
   }
 
+  .TokenGrid .Token {
+    margin-right: calc(var(--unit) * 1) !important;
+  }
+
   .TokenGrid .Token:nth-child(2n + 2) {
-    margin-right: 0;
+    margin-right: 0 !important;
   }
 
   .TokenGrid .Token:nth-child(n + 3) {
@@ -273,8 +311,6 @@ button:active {
 }
 
 .TokenGrid .Token .Token__Metadata {
-  /*padding: calc(var(--unit) * 1);
-  background-color: var(--black);*/
   padding-top: calc(var(--unit) * 1);
 }
 
@@ -295,7 +331,6 @@ button:active {
 
 .Token__Creator {
   overflow: hidden;
-  /*width: 120px;*/
   width: calc(var(--pixel) * 6);
   opacity: 0.4;
 
@@ -322,6 +357,7 @@ button:active {
   font-size: 8px !important;
   font-weight: normal !important;
   line-height: 16px !important;
+  text-transform: none !important;
   color: var(--white) !important;
 }
 
@@ -331,35 +367,60 @@ button:active {
 
 .LoadMoreButton:hover,
 .BuyButton:hover {
-  background-color: lightcoral !important;
+  background-color: blue !important;
+
+  color: var(--white);
 }
 
 .LoadMoreButton:focus,
 .BuyButton:focus {
-  background-color: lightgreen !important;
+  background-color: green !important;
+
+  color: var(--white);
 }
 
 .LoadMoreButton:active,
 .BuyButton:active {
-  background-color: lightblue !important;
+  background-color: red !important;
+
+  color: var(--white);
 }
 
 /* -------------------------- */
 
 .Preview {
   pointer-events: none;
+  display: flex;
+  flex-wrap: wrap;
   width: 100%;
 }
 
 @media (hover: hover) {
   .Token a:hover .Preview {
+    position: relative;
     transform: translate3d(-8px, -8px, 0);
     box-shadow: 8px 8px 0 rgba(0, 0, 0, 1);
   }
 }
 
+@media screen and (max-width: 1350px) {
+  @media (hover: hover) {
+    /* Glitch fix */
+    .Token a:hover .Preview:before {
+      content: '';
+      position: absolute;
+      top: 8px;
+      right: 0;
+      width: 4px;
+      height: calc(100% - 8px);
+      background-color: var(--black);
+    }
+  }
+}
+
 .Preview__Pixel {
-  float: left;
+  /*float: left;*/
+  position: relative;
   width: var(--pixel);
   height: var(--pixel);
 }
@@ -386,6 +447,12 @@ button:active {
   width: 100%;
 }
 
+@media screen and (max-width: 1150px) {
+  .TokenDetail .Token__Cols {
+    align-items: flex-start;
+  }
+}
+
 @media screen and (max-width: 900px) {
   .TokenDetail .Token__Cols {
     display: block;
@@ -393,17 +460,58 @@ button:active {
 }
 
 .TokenDetail__Meta h3 {
-  margin-bottom: calc(var(--unit) * 2);
+  margin-bottom: calc(var(--unit) * 1);
 }
 
 .TokenDetail__Meta {
+  flex-grow: 2;
+  position: relative;
   margin-left: calc(var(--unit) * 4);
+}
+
+@media (hover: hover) {
+  .TokenDetail__Meta a:hover {
+    color: blue;
+  }
 }
 
 @media screen and (max-width: 900px) {
   .TokenDetail__Meta {
     margin-top: calc(var(--unit) * 2);
     margin-left: 0;
+  }
+}
+
+.Token__Subcols {
+  display: flex;
+  flex-wrap: nowrap;
+  margin-top: calc(var(--unit) * 1);
+  width: 100%;
+}
+
+.Token__Subcols .TokenDetail__MetaInfo:nth-child(n + 2) {
+  margin-left: calc(var(--unit) * 2);
+}
+
+.TokenDetail__8bidou a {
+  display: inline-block;
+  margin-top: calc(var(--unit) * 1);
+  padding: calc(var(--unit) * 0.25) calc(var(--unit) * 0.5);
+  border: 2px solid var(--black);
+
+  font-family: 'Press Start 2P', cursive;
+  font-size: 8px;
+  font-weight: normal !important;
+  line-height: 16px;
+  color: var(--black);
+}
+
+@media (hover: hover) {
+  .TokenDetail__8bidou a:hover {
+    background-color: blue;
+    border-color: blue;
+
+    color: var(--white);
   }
 }
 
@@ -425,6 +533,16 @@ button:active {
 .TokenWrapper {
   margin-top: calc(var(--unit) * 4);
   width: calc(1 / 2 * 100% - (1 - 1 / 2) * (var(--unit) * 4));
+}
+
+@media screen and (max-width: 1000px) {
+  .TokenWrapperColumns {
+    display: block;
+  }
+
+  .TokenWrapper {
+    width: 100%;
+  }
 }
 
 .LoadingLayer {
@@ -499,6 +617,13 @@ button:active {
   margin-top: 0 !important;
 }
 
+@media screen and (max-width: 500px) {
+  .SalesTable tr td:nth-child(2) a:first-child,
+  .SalesTable tr td:nth-child(2) span {
+    display: none;
+  }
+}
+
 .Intro {
   margin-top: calc(var(--unit) * 2);
 
@@ -507,7 +632,33 @@ button:active {
 
 .Intro p {
   margin: calc(var(--unit) * 2) auto 0 auto;
-  width: 40%;
+  width: 560px;
+}
+
+@media screen and (max-width: 640px) {
+  .Intro h1 span {
+    /*display: block;
+    margin: 10px 0;*/
+  }
+
+  .Intro p {
+    width: 100%;
+  }
+}
+
+.Intro p a {
+  padding-bottom: 2px;
+  border-bottom: 1px solid var(--black);
+
+  color: var(--black);
+}
+
+@media (hover: hover) {
+  .Intro p a:hover {
+    border-color: blue;
+
+    color: blue;
+  }
 }
 
 .Intro .ButtonGroup {
@@ -516,4 +667,37 @@ button:active {
 
 .Intro .ButtonGroup button {
   margin: 0 calc(var(--unit) * 1);
+}
+
+.UserDetail__Meta {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.UserDetail__MetaInfo {
+  width: calc(100% / 4);
+}
+
+@media screen and (max-width: 700px) {
+  .UserDetail__MetaInfo {
+    width: calc(100% / 2);
+  }
+
+  .UserDetail__MetaInfo:nth-child(n + 3) {
+    margin-top: calc(var(--unit) * 1);
+  }
+}
+
+a {
+  color: var(--black);
+}
+
+.TwitterLink {
+  margin-left: calc(var(--unit) * 0.5);
+}
+
+.CodeError {
+  overflow-x: auto;
+  width: 100%;
 }
