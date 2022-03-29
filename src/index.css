@@ -147,7 +147,13 @@ header .columns .column {
 }
 
 header .columns .column:nth-child(2) {
-  text-align: right;
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: flex-end;
+}
+
+header .columns .column:nth-child(2) a {
+  margin-left: calc(var(--unit) * 1);
 }
 
 header button {
@@ -155,6 +161,10 @@ header button {
 }
 
 @media screen and (max-width: 600px) {
+  header .columns .column:nth-child(2) a:last-child {
+    display: none;
+  }
+
   header .columns .column:first-child,
   header .columns .column:last-child {
     width: auto;
