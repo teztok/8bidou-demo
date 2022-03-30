@@ -185,7 +185,7 @@ function TokenDetail() {
           </div>
           <div className="TokenDetail__Meta">
             <h3>
-              <UserLink field="artist" data={token} label={token.eightbid_creator_name.trim()} />
+              <UserLink field="artist" data={token} label={token.eightbid_creator_name.trim()} hideIsYouIndicator />
               {twitter ? (
                 <>
                   <a href={`https://twitter.com/${twitter}`} className="TwitterLink">
