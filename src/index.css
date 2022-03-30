@@ -697,7 +697,7 @@ button:active {
 }
 
 .UserDetail__MetaInfo {
-  width: calc(100% / 4);
+  width: calc(100% / 5);
 }
 
 @media screen and (max-width: 700px) {

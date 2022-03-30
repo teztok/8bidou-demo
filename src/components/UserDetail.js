@@ -1,6 +1,7 @@
 import useSWR from 'swr';
 import { request, gql } from 'graphql-request';
 import get from 'lodash/get';
+import sum from 'lodash/sum';
 import { validateAddress, ValidationResult } from '@taquito/utils';
 import { shortenTzAddress } from '../libs/utils';
 import { useParams } from 'react-router-dom';
@@ -30,11 +31,10 @@ const UserQuery = gql`
         }
       }
     }
-    holdings: holdings_aggregate(where: {holder_address: {_eq: $address}, fa2_address: {_eq: "${FA2_CONTRACT_8X8_COLOR}"}}) {
-      aggregate {
-        sum {
-          total: amount
-        }
+    holdings: holdings(where: {fa2_address: {_eq: "${FA2_CONTRACT_8X8_COLOR}"}, token: {last_sales_price: {_is_null: false}}, holder_address: {_eq: $address}, amount: {_gt: 0}}) {
+      amount
+      token {
+        last_sales_price
       }
     }
     creations: tokens_aggregate(where: {artist_address: {_eq: $address}, fa2_address: {_eq: "${FA2_CONTRACT_8X8_COLOR}"}}) {
@@ -57,10 +57,13 @@ function useUser(address) {
     revalidateOnFocus: false,
   });
 
+  const portfolioValue = sum(get(data, 'holdings', []).map(({ amount, token }) => amount * token.last_sales_price));
+
   return {
     salesVolume: get(data, 'sales.aggregate.sum.volume'),
     buyVolume: get(data, 'buys.aggregate.sum.volume'),
     totalCreations: get(data, 'creations.aggregate.total'),
+    portfolioValue,
     user: get(data, 'profile'),
     error,
     isLoading: isValidating,
@@ -70,7 +73,7 @@ function useUser(address) {
 function UserDetail() {
   const { activeAccount } = useWallet();
   const { address } = useParams();
-  const { salesVolume, buyVolume, user, totalCreations, isLoading, error } = useUser(address);
+  const { salesVolume, buyVolume, user, totalCreations, portfolioValue, isLoading, error } = useUser(address);
 
   if (!(validateAddress(address) === ValidationResult.VALID)) {
     return <NotFound />;
@@ -108,15 +111,7 @@ function UserDetail() {
             <br />
             {get(user, 'twitter') ? <a href={`https://twitter.com/${user.twitter}`}>@{user.twitter}</a> : '–'}
           </div>
-          {/*
-          {get(user, 'description') ? (
-            <div className="UserDetail__MetaInfo">
-              <span>DESCRIPTION</span>
-              <br />
-              {user.description}
-            </div>
-          ) : null}
-*/}
+
           <div className="UserDetail__MetaInfo">
             <span>TACOS SPENT</span>
             <br />
@@ -127,6 +122,12 @@ function UserDetail() {
             <span>TACOS EARNED</span>
             <br />
             <Price amount={salesVolume} />
+          </div>
+
+          <div className="UserDetail__MetaInfo">
+            <span>PIXEL VALUE</span>
+            <br />
+            <Price amount={portfolioValue} />
           </div>
         </div>
 
