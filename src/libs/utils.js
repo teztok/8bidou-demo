@@ -49,3 +49,18 @@ export const hexToRGB = (hex, alpha = 1) => {
 export function shortenTzAddress(address) {
   return `${address.substr(0, 5)}…${address.substr(-5)}`;
 }
+
+export const hexColorsToPng = (hexColors) => {
+  const c = document.createElement('canvas');
+  c.width = 16;
+  c.height = 16;
+  const ctx = c.getContext('2d');
+  const rgb = hexColors.match(/.{1,6}/g).map((x) => '#' + x);
+  for (let x = 0; x < 8; x++) {
+    for (let y = 0; y <8; y++) {
+      ctx.fillStyle = rgb[x + y * 8];
+      ctx.fillRect(x * 2, y * 2, 2, 2);
+    }
+  }
+  return c.toDataURL('image/png');
+}
