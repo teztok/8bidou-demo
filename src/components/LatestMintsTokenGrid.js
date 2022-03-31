@@ -18,6 +18,7 @@ function LatestMintsTokenGrid() {
               token: {
                 metadata_status: { _eq: "processed" }
                 editions: { _gt: 0 }
+                eightbid_rgb: { _is_null: false }
               }
               type: { _eq: "8BID_8X8_COLOR_MINT" }
               fa2_address: { _eq: "${FA2_CONTRACT_8X8_COLOR}" }
