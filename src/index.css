@@ -419,26 +419,11 @@ button:active {
   }
 }
 
-@media screen and (max-width: 1350px) {
-  @media (hover: hover) {
-    /* Glitch fix */
-    .Token a:hover .Preview:before {
-      content: '';
-      position: absolute;
-      top: 8px;
-      right: 0;
-      width: 4px;
-      height: calc(100% - 8px);
-      background-color: var(--black);
-    }
-  }
-}
-
 .Preview__Canvas {
+  image-rendering: pixelated;
+  width: 100%;
+  height: auto;
   display: block;
-  position: relative;
-  width: calc(var(--pixel) * 8);
-  height: calc(var(--pixel) * 8);
 }
 
 .Preview--large {

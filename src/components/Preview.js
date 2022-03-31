@@ -19,12 +19,7 @@ export default function Preview({ rgb, large = false }) {
 
   return (
     <div className={classNames('Preview', { 'Preview--large': large })}>
-      <canvas
-        className="Preview__Canvas" ref={cRef} width={8} height={8} style={{
-          imageRendering: 'pixelated',
-          width: '100%',
-          height: '100%',
-        }} />
+      <canvas className="Preview__Canvas" ref={cRef} width={8} height={8} />
     </div>
   );
 }
