@@ -14,7 +14,7 @@ import LoadingLayer from './LoadingLayer';
 import BuyButton from './BuyButton';
 import CreationsTokenGrid from './CreationsTokenGrid';
 import { TEZTOK_API, FA2_CONTRACT_8X8_COLOR, MARKETPLACE_CONTRACT_8X8_COLOR } from '../consts';
-import { hexToRGB, getPrimaryHexColor } from '../libs/utils';
+import { hexToRGB, getPrimaryHexColor, hexColorsToPng } from '../libs/utils';
 
 const TokenQuery = gql`
   query getToken($tokenId: String!) {
@@ -173,10 +173,13 @@ function TokenDetail() {
   }
 
   const backgroundColor = hexToRGB(getPrimaryHexColor(token.eightbid_rgb), 0.25);
+
+  const favicon = hexColorsToPng(token.eightbid_rgb);
+
   const twitter = get(token, 'artist_profile.twitter');
 
   return (
-    <Layout backgroundColor={backgroundColor}>
+    <Layout backgroundColor={backgroundColor} favicon={favicon}>
       <div className="TokenDetail">
         <div className="Token__Cols">
           <div className="TokenDetail__Thumbnail">
