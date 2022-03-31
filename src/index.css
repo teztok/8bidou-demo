@@ -402,12 +402,7 @@ button:active {
 
 .Preview {
   pointer-events: none;
-  /*display: flex;
-  flex-wrap: wrap;
-  width: 100%;*/
-  display: grid;
   width: 100%;
-  grid-template-columns: repeat(8, 1fr);
 }
 
 @media screen and (min-width: 900px) and (max-width: 1350px) {
@@ -439,11 +434,11 @@ button:active {
   }
 }
 
-.Preview__Pixel {
-  /*float: left;*/
+.Preview__Canvas {
+  display: block;
   position: relative;
-  width: var(--pixel);
-  height: var(--pixel);
+  width: calc(var(--pixel) * 8);
+  height: calc(var(--pixel) * 8);
 }
 
 .Preview--large {
