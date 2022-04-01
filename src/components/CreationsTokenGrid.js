@@ -18,6 +18,7 @@ function CreationsTokenGrid({ address, headline = 'Creations', filter }) {
             fa2_address: { _eq: "${FA2_CONTRACT_8X8_COLOR}" }
             artist_address: { _eq: $address }
             editions: { _gt: 0 }
+            eightbid_rgb: { _is_null: false }
           }
           limit: $limit
           order_by: { minted_at: desc }

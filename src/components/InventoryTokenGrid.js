@@ -19,6 +19,7 @@ function InventoryTokenGrid({ address }) {
             holder_address: { _eq: $address }
             amount: { _gt: "0" }
             fa2_address: { _eq: "${FA2_CONTRACT_8X8_COLOR}" }
+            token: { eightbid_rgb: { _is_null: false } }
           }
           limit: $limit
           order_by: [{ token: { artist_address: asc } }, { token: { minted_at: desc } }]
