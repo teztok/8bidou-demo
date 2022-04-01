@@ -8,15 +8,13 @@ export default function Preview({ rgb, large = false }) {
 
   try {
     pixels = chunkLeft(rgb);
-  }
-  catch (err) {
-  }
+  } catch (err) {}
 
   useEffect(() => {
     const c = cRef.current;
     const ctx = c.getContext('2d');
     for (let x = 0; x < 8; x++) {
-      for (let y = 0; y <8; y++) {
+      for (let y = 0; y < 8; y++) {
         ctx.fillStyle = '#' + pixels[x + y * 8];
         ctx.fillRect(x, y, 1, 1);
       }
@@ -24,11 +22,7 @@ export default function Preview({ rgb, large = false }) {
   });
 
   if (pixels === null) {
-    return (
-      <div className={classNames('Preview', { 'Preview--large': large })}>
-        failed to load.
-      </div>
-    );
+    return <div className={classNames('Preview', { 'Preview--large': large })}>failed to load.</div>;
   }
 
   return (

@@ -11,8 +11,8 @@ export default function UserLink({ field, data, label = null, hideIsYouIndicator
     label || (get(data, `${field}_profile.alias`) ? get(data, `${field}_profile.alias`) : shortenTzAddress(data[`${field}_address`]));
 
   return (
-    <Link to={`/user/${data[`${field}_address`]}`}>
-      {isYou ? <>👉&nbsp;</> : ''}
+    <Link to={`/user/${data[`${field}_address`]}`} className={`${isYou ? 'User' : ''}`}>
+      {isYou ? <span className="User__Icon">👉</span> : ''}
       {name}
     </Link>
   );
