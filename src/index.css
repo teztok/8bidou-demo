@@ -402,12 +402,7 @@ button:active {
 
 .Preview {
   pointer-events: none;
-  /*display: flex;
-  flex-wrap: wrap;
-  width: 100%;*/
-  display: grid;
   width: 100%;
-  grid-template-columns: repeat(8, 1fr);
 }
 
 @media screen and (min-width: 900px) and (max-width: 1350px) {
@@ -424,26 +419,11 @@ button:active {
   }
 }
 
-@media screen and (max-width: 1350px) {
-  @media (hover: hover) {
-    /* Glitch fix */
-    .Token a:hover .Preview:before {
-      content: '';
-      position: absolute;
-      top: 8px;
-      right: 0;
-      width: 4px;
-      height: calc(100% - 8px);
-      background-color: var(--black);
-    }
-  }
-}
-
-.Preview__Pixel {
-  /*float: left;*/
-  position: relative;
-  width: var(--pixel);
-  height: var(--pixel);
+.Preview__Canvas {
+  image-rendering: pixelated;
+  width: 100%;
+  height: auto;
+  display: block;
 }
 
 .Preview--large {
