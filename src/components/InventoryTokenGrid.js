@@ -12,6 +12,7 @@ function InventoryTokenGrid({ address }) {
       tokenPath="token"
       keyPath="token.token_id"
       variables={{ address }}
+      itemsPerLoad={48}
       query={gql`
       query getInventory($address: String!, $limit: Int!) {
         holdings(
