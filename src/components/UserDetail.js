@@ -70,6 +70,16 @@ function useUser(address) {
   };
 }
 
+function MetaInfo({ label, children }) {
+  return (
+    <div className="UserDetail__MetaInfo">
+      <span>{label}</span>
+      <br />
+      {children}
+    </div>
+  );
+}
+
 function UserDetail() {
   const { activeAccount } = useWallet();
   const { address } = useParams();
@@ -100,35 +110,19 @@ function UserDetail() {
       <div className="UserDetail">
         <h2>{activeAccount?.address === address ? 'My Profile' : shortenTzAddress(address) + '`s Profile'}</h2>
         <div className="UserDetail__Meta">
-          <div className="UserDetail__MetaInfo">
-            <span>ALIAS</span>
-            <br />
-            {get(user, 'alias') ? <>{user.alias}</> : '–'}
-          </div>
-
-          <div className="UserDetail__MetaInfo">
-            <span>TWITTER</span>
-            <br />
+          <MetaInfo label="Alias">{get(user, 'alias') ? <>{user.alias}</> : '–'}</MetaInfo>
+          <MetaInfo label="Twitter">
             {get(user, 'twitter') ? <a href={`https://twitter.com/${user.twitter}`}>@{user.twitter}</a> : '–'}
-          </div>
-
-          <div className="UserDetail__MetaInfo">
-            <span>TACOS SPENT</span>
-            <br />
+          </MetaInfo>
+          <MetaInfo label="Tacos Spent">
             <Price amount={buyVolume} />
-          </div>
-
-          <div className="UserDetail__MetaInfo">
-            <span>TACOS EARNED</span>
-            <br />
+          </MetaInfo>
+          <MetaInfo label="Tacos Earned">
             <Price amount={salesVolume} />
-          </div>
-
-          <div className="UserDetail__MetaInfo">
-            <span>PIXEL VALUE</span>
-            <br />
+          </MetaInfo>
+          <MetaInfo label="Pixel Value">
             <Price amount={portfolioValue} />
-          </div>
+          </MetaInfo>
         </div>
 
         <CreationsTokenGrid address={address} headline={creationsHeadline} />
