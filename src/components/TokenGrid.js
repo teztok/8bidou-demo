@@ -1,15 +1,7 @@
 import Token from './Token';
 
 function TokenGrid({ tokens }) {
-  if (!tokens) {
-    return (
-      <div>
-        <em>loading</em>
-      </div>
-    );
-  }
-
-  if (!tokens.length) {
+  if (!tokens || !tokens.length) {
     return (
       <div>
         <em>no results</em>

@@ -3,7 +3,6 @@ import get from 'lodash/get';
 import { request, gql } from 'graphql-request';
 import { useParams } from 'react-router-dom';
 import ReactTimeAgo from 'react-time-ago';
-import { useWallet } from '@tezos-contrib/react-wallet-provider';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import Preview from './Preview';
 import UserLink from './UserLink';
@@ -13,8 +12,9 @@ import Error from './Error';
 import NotFound from './NotFound';
 import LoadingLayer from './LoadingLayer';
 import BuyButton from './BuyButton';
-import CancelSwapButton from './CancelSwapButton';
 import CreationsTokenGrid from './CreationsTokenGrid';
+import ListingsTable from './ListingsTable';
+import HoldingsTable from './HoldingsTable';
 import { TEZTOK_API, FA2_CONTRACT_8X8_COLOR, MARKETPLACE_CONTRACT_8X8_COLOR } from '../consts';
 import { hexToRGB, getPrimaryHexColor, hexColorsToPng } from '../libs/utils';
 
@@ -124,39 +124,12 @@ function Sales({ sales }) {
 }
 
 function ListingsAndHoldings({ holdings, listings }) {
-  const { activeAccount } = useWallet();
   const holdingsFiltered = holdings.filter(({ holder_address }) => holder_address !== MARKETPLACE_CONTRACT_8X8_COLOR);
+
   return (
     <div className="ListingsAndHoldings">
-      {listings.length > 0 && (
-        <table className="ListingsTable">
-          <tbody>
-            {listings.map((listing) => {
-              const isYou = listing.seller_address === activeAccount?.address;
-
-              return (
-                <tr key={listing.swap_id}>
-                  <td>
-                    {listing.amount_left} x <UserLink data={listing} field="seller" />
-                  </td>
-                  <td>{isYou ? <CancelSwapButton listing={listing} /> : <BuyButton listing={listing} />}</td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
-      )}
-      <table className="HoldingsTable">
-        <tbody>
-          {holdingsFiltered.map((holding) => (
-            <tr key={holding.holder_address}>
-              <td>
-                {holding.amount} x <UserLink data={holding} field="holder" />
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      {listings.length > 0 && <ListingsTable listings={listings} />}
+      {holdingsFiltered.length > 0 && <HoldingsTable holdings={holdingsFiltered} />}
     </div>
   );
 }
