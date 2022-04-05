@@ -364,8 +364,7 @@ button:active {
   }
 }
 
-.LoadMoreButton,
-.BuyButton {
+.Button {
   border-radius: 0 !important;
   border: 0 !important;
   outline: 0 !important;
@@ -387,26 +386,23 @@ button:active {
   color: var(--white) !important;
 }
 
-.BuyButton {
+.Button--autoWidth {
   width: auto !important;
 }
 
-.LoadMoreButton:hover,
-.BuyButton:hover {
+.Button:hover {
   background-color: blue !important;
 
   color: var(--white);
 }
 
-.LoadMoreButton:focus,
-.BuyButton:focus {
+.Button:focus {
   background-color: green !important;
 
   color: var(--white);
 }
 
-.LoadMoreButton:active,
-.BuyButton:active {
+.Button:active {
   background-color: red !important;
 
   color: var(--white);

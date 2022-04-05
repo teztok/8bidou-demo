@@ -74,7 +74,7 @@ function LazyLoadTokenGrid({
       {hasProbablyMore && (
         <div className="LazyTokenGrid__More">
           <LoadingButton
-            className="LoadMoreButton"
+            className="Button"
             loading={isValidating}
             onClick={() => {
               const newLimit = limit + itemsPerLoad;

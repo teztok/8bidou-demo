@@ -4,7 +4,7 @@ import { getWallet } from '../libs/wallet';
 import Price from './Price';
 import Button from './Button';
 
-export default function BuyButton({ listing }) {
+export default function CancelSwapButton({ listing }) {
   const { client, activeAccount } = useWallet();
 
   return (
@@ -13,11 +13,10 @@ export default function BuyButton({ listing }) {
       onClick={async () => {
         const wallet = getWallet(client);
         const contract = await wallet.at(MARKETPLACE_CONTRACT_8X8_COLOR);
-        const res = await contract.methods.buy(listing.swap_id, 1, listing.price);
+        const res = await contract.methods.cancelswap(listing.swap_id);
 
         await res.send({
-          amount: listing.price,
-          mutez: true,
+          amount: 0,
           storageLimit: 175,
         });
       }}
@@ -25,8 +24,7 @@ export default function BuyButton({ listing }) {
       size="small"
       autoWidth
     >
-      Buy for&nbsp;
-      <Price amount={listing.price} />
+      Cancel Swap (<Price amount={listing.price} />)
     </Button>
   );
 }
