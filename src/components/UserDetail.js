@@ -11,6 +11,7 @@ import CreationsTokenGrid from './CreationsTokenGrid';
 import InventoryTokenGrid from './InventoryTokenGrid';
 import Price from './Price';
 import LoadingLayer from './LoadingLayer';
+import UserListings from './UserListings';
 import Error from './Error';
 import NotFound from './NotFound';
 import { TEZTOK_API, FA2_CONTRACT_8X8_COLOR } from '../consts';
@@ -84,6 +85,7 @@ function UserDetail() {
   const { activeAccount } = useWallet();
   const { address } = useParams();
   const { salesVolume, buyVolume, user, totalCreations, portfolioValue, isLoading, error } = useUser(address);
+  const isYou = activeAccount?.address === address;
 
   if (!(validateAddress(address) === ValidationResult.VALID)) {
     return <NotFound />;
@@ -108,7 +110,7 @@ function UserDetail() {
   return (
     <Layout>
       <div className="UserDetail">
-        <h2>{activeAccount?.address === address ? 'My Profile' : shortenTzAddress(address) + '`s Profile'}</h2>
+        <h2>{isYou ? 'My Profile' : shortenTzAddress(address) + '`s Profile'}</h2>
         <div className="UserDetail__Meta">
           <MetaInfo label="Alias">{get(user, 'alias') ? <>{user.alias}</> : '–'}</MetaInfo>
           <MetaInfo label="Twitter">
@@ -124,6 +126,8 @@ function UserDetail() {
             <Price amount={portfolioValue} />
           </MetaInfo>
         </div>
+
+        {isYou ? <UserListings address={address} /> : null}
 
         <CreationsTokenGrid address={address} headline={creationsHeadline} />
         <InventoryTokenGrid address={address} />
