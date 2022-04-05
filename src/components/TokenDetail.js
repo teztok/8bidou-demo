@@ -251,7 +251,7 @@ function TokenDetail() {
           </div>
         </div>
 
-        <CreationsTokenGrid headline="More creations" address={token.artist_address} filter={(t) => token.token_id !== t.token_id} />
+        <CreationsTokenGrid headline="More Creations" address={token.artist_address} filter={(t) => token.token_id !== t.token_id} />
       </div>
     </Layout>
   );
