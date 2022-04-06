@@ -7,8 +7,7 @@ import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
-import DialogTitle from '@mui/material/DialogTitle';
-import Token from './Token';
+import Preview from './Preview';
 import Button from './Button';
 import { FA2_CONTRACT_8X8_COLOR, MARKETPLACE_CONTRACT_8X8_COLOR } from '../consts';
 
@@ -21,7 +20,7 @@ export default function SwapButton({ token, holding }) {
     formState: { errors },
   } = useForm({
     defaultValues: {
-      editions: holding.amount,
+      editions: 1,
     },
   });
 
@@ -94,20 +93,19 @@ export default function SwapButton({ token, holding }) {
   };
 
   return (
-    <div>
+    <>
       <Button autoWidth onClick={handleClickOpen}>
         Swap
       </Button>
       <Dialog open={open} onClose={handleClose}>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <DialogTitle>Swap {token.name}</DialogTitle>
           <DialogContent>
-            <Token token={token} />
+            <Preview rgb={token.eightbid_rgb} />
             <div>
               <TextField
                 margin="dense"
                 id="editions"
-                label="Editions"
+                label={`Editions (max: ${holding.amount})`}
                 type="number"
                 fullWidth
                 variant="standard"
@@ -127,7 +125,7 @@ export default function SwapButton({ token, holding }) {
                 fullWidth
                 variant="standard"
                 inputProps={{
-                  step: 'any'
+                  step: 'any',
                 }}
                 {...register('price', { required: true, min: 0 })}
               />
@@ -136,11 +134,13 @@ export default function SwapButton({ token, holding }) {
             </div>
           </DialogContent>
           <DialogActions>
+            <Button onClick={handleClose} inverted>
+              Cancel
+            </Button>
             <Button type="submit">Swap</Button>
-            <Button onClick={handleClose}>Cancel</Button>
           </DialogActions>
         </form>
       </Dialog>
-    </div>
+    </>
   );
 }

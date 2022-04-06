@@ -392,6 +392,10 @@ button:active {
   width: auto !important;
 }
 
+.Button--inverted {
+  /* TODO: invert styles */
+}
+
 .Button:hover {
   background-color: blue !important;
 
