@@ -24,11 +24,11 @@ export default function CancelSwapButton({ listing, showPrice = true }) {
       size="small"
       autoWidth
     >
-      Cancel Swap
+      Cancel
       {showPrice ? (
         <>
-          {' '}
-          (<Price amount={listing.price} />)
+          &nbsp;
+          <Price amount={listing.price} />
         </>
       ) : null}
     </Button>

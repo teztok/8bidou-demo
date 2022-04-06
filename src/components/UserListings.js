@@ -59,7 +59,7 @@ function useUserListings(address) {
 
 function UserListings({ address, showCancelButton = true, headline = 'My Listings' }) {
   const { listings, isLoading, error } = useUserListings(address);
-  const [showAllListings, setShowAllListings] = useState(false);
+  const [showActiveListings, setShowActiveListings] = useState(true);
 
   if (error) {
     return (
@@ -88,58 +88,73 @@ function UserListings({ address, showCancelButton = true, headline = 'My Listing
     );
   }
 
+  const filteredListings = listings.filter((listing) => !showActiveListings || listing.status === 'active');
+
   return (
     <div className="UserListings">
-      <h2>{headline}</h2>
-      <div>
-        <FormControlLabel
-          control={
-            <Checkbox
-              checked={showAllListings}
-              onChange={() => {
-                setShowAllListings(!showAllListings);
-              }}
-            />
-          }
-          label="Show Inactive"
-        />
-      </div>
-      <table>
-        <thead>
-          <tr>
-            <th>Swap</th>
-            <th>Artist</th>
-            <th>Amount</th>
-            <th>Sold</th>
-            <th>Status</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          {listings
-            .filter((listing) => showAllListings || listing.status === 'active')
-            .map((listing) => (
-              <tr key={listing.created_at}>
-                <td>
-                  #{listing.swap_id}
-                  <Link to={`/token/${listing.token.token_id}`}>
-                    <Preview rgb={listing.token.eightbid_rgb} />
-                  </Link>
-                </td>
-                <td>
-                  <UserLink field="artist" data={listing.token} />
-                </td>
-                <td>{listing.amount}</td>
-                <td>
-                  {listing.amount - listing.amount_left} x <Price amount={listing.price} /> ={' '}
-                  <Price amount={(listing.amount - listing.amount_left) * listing.price} />
-                </td>
-                <td>{listing.status}</td>
-                <td>{showCancelButton && listing.status === 'active' ? <CancelSwapButton listing={listing} showPrice={false} /> : null}</td>
-              </tr>
-            ))}
-        </tbody>
-      </table>
+      <h2>
+        {headline}
+        <div className="UserListings__Toggle">
+          <FormControlLabel
+            sx={{ mr: 0 }}
+            control={
+              <Checkbox
+                checked={showActiveListings}
+                onChange={() => {
+                  setShowActiveListings(!showActiveListings);
+                }}
+                size="small"
+                sx={{
+                  pt: 0,
+                  pb: 0,
+                  pl: 0,
+                  color: 'black',
+                  '&.Mui-checked': {
+                    color: 'blue',
+                  },
+                }}
+              />
+            }
+            label="Show active only"
+          />
+        </div>
+      </h2>
+      {!filteredListings.length ? (
+        <>You have {listings.length} inactive listings...</>
+      ) : (
+        <>
+          <table>
+            <tbody>
+              {filteredListings.map((listing) => (
+                <tr key={listing.created_at}>
+                  <td>
+                    <Link to={`/token/${listing.token.token_id}`}>
+                      <Preview rgb={listing.token.eightbid_rgb} />
+                    </Link>
+                  </td>
+                  <td>
+                    <UserLink field="artist" data={listing.token} />
+                  </td>
+                  <td>{listing.amount} ed.</td>
+                  <td>
+                    {listing.amount - listing.amount_left} x <Price amount={listing.price} />
+                  </td>
+                  <td>
+                    <Price amount={(listing.amount - listing.amount_left) * listing.price} /> earned
+                  </td>
+                  <td>
+                    {showCancelButton && listing.status === 'active' ? (
+                      <CancelSwapButton listing={listing} showPrice={false} />
+                    ) : (
+                      <>{listing.status}</>
+                    )}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </>
+      )}
     </div>
   );
 }
