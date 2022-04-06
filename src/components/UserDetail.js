@@ -11,6 +11,7 @@ import CreationsTokenGrid from './CreationsTokenGrid';
 import InventoryTokenGrid from './InventoryTokenGrid';
 import Price from './Price';
 import LoadingLayer from './LoadingLayer';
+import UserListings from './UserListings';
 import Error from './Error';
 import NotFound from './NotFound';
 import { TEZTOK_API, FA2_CONTRACT_8X8_COLOR } from '../consts';
@@ -70,10 +71,21 @@ function useUser(address) {
   };
 }
 
+function MetaInfo({ label, children }) {
+  return (
+    <div className="UserDetail__MetaInfo">
+      <span>{label}</span>
+      <br />
+      {children}
+    </div>
+  );
+}
+
 function UserDetail() {
   const { activeAccount } = useWallet();
   const { address } = useParams();
   const { salesVolume, buyVolume, user, totalCreations, portfolioValue, isLoading, error } = useUser(address);
+  const isYou = activeAccount?.address === address;
 
   if (!(validateAddress(address) === ValidationResult.VALID)) {
     return <NotFound />;
@@ -98,38 +110,24 @@ function UserDetail() {
   return (
     <Layout>
       <div className="UserDetail">
-        <h2>{activeAccount?.address === address ? 'My Profile' : shortenTzAddress(address) + '`s Profile'}</h2>
+        <h2>{isYou ? 'My Profile' : shortenTzAddress(address) + '`s Profile'}</h2>
         <div className="UserDetail__Meta">
-          <div className="UserDetail__MetaInfo">
-            <span>ALIAS</span>
-            <br />
-            {get(user, 'alias') ? <>{user.alias}</> : '–'}
-          </div>
-
-          <div className="UserDetail__MetaInfo">
-            <span>TWITTER</span>
-            <br />
+          <MetaInfo label="Alias">{get(user, 'alias') ? <>{user.alias}</> : '–'}</MetaInfo>
+          <MetaInfo label="Twitter">
             {get(user, 'twitter') ? <a href={`https://twitter.com/${user.twitter}`}>@{user.twitter}</a> : '–'}
-          </div>
-
-          <div className="UserDetail__MetaInfo">
-            <span>TACOS SPENT</span>
-            <br />
+          </MetaInfo>
+          <MetaInfo label="Tacos Spent">
             <Price amount={buyVolume} />
-          </div>
-
-          <div className="UserDetail__MetaInfo">
-            <span>TACOS EARNED</span>
-            <br />
+          </MetaInfo>
+          <MetaInfo label="Tacos Earned">
             <Price amount={salesVolume} />
-          </div>
-
-          <div className="UserDetail__MetaInfo">
-            <span>PIXEL VALUE</span>
-            <br />
+          </MetaInfo>
+          <MetaInfo label="Pixel Value">
             <Price amount={portfolioValue} />
-          </div>
+          </MetaInfo>
         </div>
+
+        {isYou ? <UserListings address={address} /> : null}
 
         <CreationsTokenGrid address={address} headline={creationsHeadline} />
         <InventoryTokenGrid address={address} />

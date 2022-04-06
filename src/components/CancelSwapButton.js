@@ -4,7 +4,7 @@ import { getWallet } from '../libs/wallet';
 import Price from './Price';
 import Button from './Button';
 
-export default function CancelSwapButton({ listing }) {
+export default function CancelSwapButton({ listing, showPrice = true }) {
   const { client, activeAccount } = useWallet();
 
   return (
@@ -24,7 +24,13 @@ export default function CancelSwapButton({ listing }) {
       size="small"
       autoWidth
     >
-      Cancel Swap (<Price amount={listing.price} />)
+      Cancel
+      {showPrice ? (
+        <>
+          &nbsp;
+          <Price amount={listing.price} />
+        </>
+      ) : null}
     </Button>
   );
 }
