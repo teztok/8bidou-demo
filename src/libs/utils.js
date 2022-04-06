@@ -1,4 +1,5 @@
 import maxBy from 'lodash/maxBy';
+import get from 'lodash/get';
 
 export function chunkLeft(str, size = 6) {
   if (typeof str === 'string') {
@@ -46,8 +47,8 @@ export const hexToRGB = (hex, alpha = 1) => {
   return `rgba(${r}, ${g}, ${b}, ${alpha})`;
 };
 
-export function shortenTzAddress(address) {
-  return `${address.substr(0, 5)}…${address.substr(-5)}`;
+export function getUsername(data, field) {
+  return get(data, `${field}_profile.alias`) ? get(data, `${field}_profile.alias`) : shortenTzAddress(data[`${field}_address`]);
 }
 
 export const hexColorsToPng = (hexColors) => {
@@ -64,3 +65,7 @@ export const hexColorsToPng = (hexColors) => {
   }
   return c.toDataURL('image/png');
 };
+
+export function shortenTzAddress(address) {
+  return `${address.substr(0, 5)}…${address.substr(-5)}`;
+}

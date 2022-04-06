@@ -1,5 +1,6 @@
 import Preview from './Preview';
 import Price from './Price';
+import { getUsername } from '../libs/utils';
 import { Link } from 'react-router-dom';
 
 function Token({ token }) {
@@ -12,7 +13,7 @@ function Token({ token }) {
             <div className="Token__Editions">{token.editions}x</div>
             <div className="Token__Price">{token.price !== null ? <Price amount={token.price} /> : '-'}</div>
           </div>
-          <div className="Token__Creator">{token.eightbid_creator_name}</div>
+          <div className="Token__Creator">{getUsername(token, 'artist')}</div>
         </div>
       </Link>
     </div>
