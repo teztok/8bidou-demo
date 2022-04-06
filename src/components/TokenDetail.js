@@ -1,12 +1,14 @@
 import useSWR from 'swr';
 import get from 'lodash/get';
 import keyBy from 'lodash/keyBy';
+import { useWallet } from '@tezos-contrib/react-wallet-provider';
 import { request, gql } from 'graphql-request';
 import { useParams } from 'react-router-dom';
 import ReactTimeAgo from 'react-time-ago';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import Preview from './Preview';
 import UserLink from './UserLink';
+import SwapButton from './SwapButton';
 import Price from './Price';
 import Layout from './Layout';
 import Error from './Error';
@@ -172,8 +174,19 @@ function ListingsAndHoldings({ holdings, listings }) {
   );
 }
 
+function MetaInfo({ label, children }) {
+  return (
+    <div className="TokenDetail__MetaInfo">
+      <span>{label}</span>
+      <br />
+      {children}
+    </div>
+  );
+}
+
 function TokenDetail() {
   const { tokenId } = useParams();
+  const { activeAccount } = useWallet();
   const { isLoading, token, doesNotExist, error } = useToken(tokenId);
 
   if (error) {
@@ -189,10 +202,9 @@ function TokenDetail() {
   }
 
   const backgroundColor = hexToRGB(getPrimaryHexColor(token.eightbid_rgb), 0.25);
-
   const favicon = hexColorsToPng(token.eightbid_rgb);
-
   const twitter = get(token, 'artist_profile.twitter');
+  const yourHolding = activeAccount && token.holdings.find(({ holder_address }) => activeAccount?.address === holder_address);
 
   return (
     <Layout backgroundColor={backgroundColor} favicon={favicon}>
@@ -201,6 +213,7 @@ function TokenDetail() {
           <div className="TokenDetail__Thumbnail">
             <Preview rgb={token.eightbid_rgb} large />
             {token.listings.length ? <BuyButton listing={token.listings[0]} /> : null}
+            {yourHolding ? <SwapButton holding={yourHolding} token={token} /> : null}
           </div>
           <div className="TokenDetail__Meta">
             <h3>
@@ -214,16 +227,8 @@ function TokenDetail() {
               ) : null}
             </h3>
 
-            <div className="TokenDetail__MetaInfo">
-              <span>TITLE</span>
-              <br />
-              {token.name}
-            </div>
-            <div className="TokenDetail__MetaInfo">
-              <span>DESCRIPTION</span>
-              <br />
-              {token.description}
-            </div>
+            <MetaInfo label="Title">{token.name}</MetaInfo>
+            <MetaInfo label="Description">{token.description}</MetaInfo>
 
             <div className="TokenDetail__8bidou">
               <a href={`https://www.8bidou.com/listing/?id=${token.token_id}`} className="ButtonInvert">
@@ -232,21 +237,9 @@ function TokenDetail() {
             </div>
 
             <div className="Token__Subcols">
-              <div className="TokenDetail__MetaInfo">
-                <span>EDITIONS</span>
-                <br />
-                {token.editions}
-              </div>
-              <div className="TokenDetail__MetaInfo">
-                <span>SALES</span>
-                <br />
-                {token.sales_count}
-              </div>
-              <div className="TokenDetail__MetaInfo">
-                <span>MINTED</span>
-                <br />
-                {new Date(token.minted_at).toLocaleDateString()}
-              </div>
+              <MetaInfo label="Editions">{token.editions}</MetaInfo>
+              <MetaInfo label="Sales">{token.sales_count}</MetaInfo>
+              <MetaInfo label="Minted">{new Date(token.minted_at).toLocaleDateString()}</MetaInfo>
             </div>
           </div>
         </div>

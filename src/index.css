@@ -534,6 +534,10 @@ button:active {
   margin-top: calc(var(--unit) * 0.75);
 }
 
+.TokenDetail__MetaInfo span {
+  text-transform: uppercase;
+}
+
 .TokenDetail__MetaInfo a {
   color: var(--black);
 }
@@ -798,6 +802,10 @@ button:active {
 
 .UserDetail__MetaInfo {
   width: calc(100% / 5);
+}
+
+.UserDetail__MetaInfo span {
+  text-transform: uppercase;
 }
 
 @media screen and (max-width: 900px) {
