@@ -1,5 +1,6 @@
 import useSWR from 'swr';
 import get from 'lodash/get';
+import keyBy from 'lodash/keyBy';
 import { request, gql } from 'graphql-request';
 import { useParams } from 'react-router-dom';
 import ReactTimeAgo from 'react-time-ago';
@@ -66,6 +67,14 @@ const TokenQuery = gql`
         price
         total_price
       }
+      swaps: events(where: { type: { _eq: "8BID_8X8_COLOR_SWAP" } }, order_by: { opid: asc }) {
+        opid
+        timestamp
+        swap_id
+        artist_address
+        seller_address
+        royalties
+      }
       holdings(where: { amount: { _gt: 0 } }, order_by: { amount: desc }) {
         holder_address
         holder_profile {
@@ -83,6 +92,35 @@ function useToken(tokenId) {
     revalidateIfStale: false,
     revalidateOnFocus: false,
   });
+
+  if (data && data.token) {
+    const swapsById = keyBy(data.token.swaps, 'swap_id');
+
+    // filter out potentially fraudulent swaps
+    const filteredListings = data.token.listings.filter((listing) => {
+      const swap = swapsById[listing.swap_id];
+
+      if (!swap) {
+        return false;
+      }
+
+      if (swap.royalties !== 100) {
+        // royalties should always be set to 100 (10%)
+        return false;
+      }
+
+      if (swap.artist_address !== data.token.artist_address) {
+        // swap creator didn't set 'creator' to the artist address
+        return false;
+      }
+
+      return true;
+    });
+
+    data.token.listings = filteredListings;
+  }
+
+  console.log('data.token', data);
 
   return {
     token: data && data.token,
