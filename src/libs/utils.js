@@ -83,6 +83,7 @@ const utf8decoder = new TextDecoder();
 
 export const toHex = (str) => {
   if (COLOR_FORMAT === 'monochrome') {
+    // thank you cables.and.pixels, for this code snippet!
     const ints = str.match(/.{1,2}/g).map((v) => parseInt(v, 16));
     return utf8decoder
       .decode(new Uint8Array(ints))
