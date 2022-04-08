@@ -1,5 +1,5 @@
 import { gql } from 'graphql-request';
-import { FA2_CONTRACT_8X8_COLOR } from '../consts';
+import { FA2_CONTRACT } from '../consts';
 import LazyLoadTokenGrid from './LazyLoadTokenGrid';
 
 function LatestSalesTokenGrid() {
@@ -17,7 +17,7 @@ function LatestSalesTokenGrid() {
             where: {
               token: { metadata_status: { _eq: "processed" } }
               implements: { _eq: "SALE" }
-              fa2_address: { _eq: "${FA2_CONTRACT_8X8_COLOR}" }
+              fa2_address: { _eq: "${FA2_CONTRACT}" }
             }
             limit: $limit
             order_by: { opid: desc }

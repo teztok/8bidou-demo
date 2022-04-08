@@ -1,5 +1,5 @@
 import { gql } from 'graphql-request';
-import { FA2_CONTRACT_8X8_COLOR } from '../consts';
+import { FA2_CONTRACT } from '../consts';
 import LazyLoadTokenGrid from './LazyLoadTokenGrid';
 
 function CreationsTokenGrid({ address, headline = 'Creations', filter }) {
@@ -15,7 +15,7 @@ function CreationsTokenGrid({ address, headline = 'Creations', filter }) {
       query getCreations($address: String!, $limit: Int!) {
         tokens(
           where: {
-            fa2_address: { _eq: "${FA2_CONTRACT_8X8_COLOR}" }
+            fa2_address: { _eq: "${FA2_CONTRACT}" }
             artist_address: { _eq: $address }
             editions: { _gt: 0 }
             eightbid_rgb: { _is_null: false }

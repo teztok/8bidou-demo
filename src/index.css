@@ -14,7 +14,6 @@
   --lh-big: 32px;
 
   --pixel: calc((100vw - (var(--unit) * 11)) / 64);
-  --pixel-large: calc(((100vw * 0.33) - (var(--unit) * 3)) / 8);
 }
 
 @media screen and (max-width: 1350px) {
@@ -28,7 +27,6 @@
 @media screen and (max-width: 900px) {
   :root {
     --pixel: calc((100vw - (var(--unit) * 7)) / 32);
-    --pixel-large: calc((100vw - (var(--unit) * 4)) / 8);
   }
 }
 
@@ -448,11 +446,6 @@ button:active {
   .Preview--large {
     width: 423px;
   }
-}
-
-.Preview--large .Preview__Pixel {
-  width: var(--pixel-large);
-  height: var(--pixel-large);
 }
 
 .TokenDetail .Token__Cols {
