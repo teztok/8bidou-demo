@@ -14,31 +14,31 @@ import LoadingLayer from './LoadingLayer';
 import UserListings from './UserListings';
 import Error from './Error';
 import NotFound from './NotFound';
-import { TEZTOK_API, FA2_CONTRACT_8X8_COLOR } from '../consts';
+import { TEZTOK_API, FA2_CONTRACT } from '../consts';
 
 const UserQuery = gql`
   query getUser($address: String!) {
-    sales: events_aggregate(where: {seller_address: {_eq: $address}, implements: {_eq: "SALE"}, fa2_address: {_eq: "${FA2_CONTRACT_8X8_COLOR}"}, type: {_like: "8BID_%"}}) {
+    sales: events_aggregate(where: {seller_address: {_eq: $address}, implements: {_eq: "SALE"}, fa2_address: {_eq: "${FA2_CONTRACT}"}, type: {_like: "8BID_%"}}) {
       aggregate {
         sum {
           volume: total_price
         }
       }
     }
-    buys: events_aggregate(where: {buyer_address: {_eq: $address}, implements: {_eq: "SALE"}, fa2_address: {_eq: "${FA2_CONTRACT_8X8_COLOR}"}, type: {_like: "8BID_%"}}) {
+    buys: events_aggregate(where: {buyer_address: {_eq: $address}, implements: {_eq: "SALE"}, fa2_address: {_eq: "${FA2_CONTRACT}"}, type: {_like: "8BID_%"}}) {
       aggregate {
         sum {
           volume: total_price
         }
       }
     }
-    holdings: holdings(where: {fa2_address: {_eq: "${FA2_CONTRACT_8X8_COLOR}"}, token: {last_sales_price: {_is_null: false}}, holder_address: {_eq: $address}, amount: {_gt: 0}}) {
+    holdings: holdings(where: {fa2_address: {_eq: "${FA2_CONTRACT}"}, token: {last_sales_price: {_is_null: false}}, holder_address: {_eq: $address}, amount: {_gt: 0}}) {
       amount
       token {
         last_sales_price
       }
     }
-    creations: tokens_aggregate(where: {artist_address: {_eq: $address}, fa2_address: {_eq: "${FA2_CONTRACT_8X8_COLOR}"}}) {
+    creations: tokens_aggregate(where: {artist_address: {_eq: $address}, fa2_address: {_eq: "${FA2_CONTRACT}"}}) {
       aggregate {
         total: count(columns: token_id)
       }

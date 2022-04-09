@@ -1,5 +1,5 @@
 import { gql } from 'graphql-request';
-import { FA2_CONTRACT_8X8_COLOR } from '../consts';
+import { FA2_CONTRACT } from '../consts';
 import LazyLoadTokenGrid from './LazyLoadTokenGrid';
 
 function InventoryTokenGrid({ address }) {
@@ -19,7 +19,7 @@ function InventoryTokenGrid({ address }) {
           where: {
             holder_address: { _eq: $address }
             amount: { _gt: "0" }
-            fa2_address: { _eq: "${FA2_CONTRACT_8X8_COLOR}" }
+            fa2_address: { _eq: "${FA2_CONTRACT}" }
             token: { eightbid_rgb: { _is_null: false } }
           }
           limit: $limit

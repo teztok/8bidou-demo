@@ -9,11 +9,12 @@ import CancelSwapButton from './CancelSwapButton';
 import Preview from './Preview';
 import UserLink from './UserLink';
 import { Link } from 'react-router-dom';
-import { TEZTOK_API, FA2_CONTRACT_8X8_COLOR } from '../consts';
+import { toHex } from '../libs/utils';
+import { TEZTOK_API, FA2_CONTRACT, EVENT_TYPE_PREFIX } from '../consts';
 
 const UserListingsQuery = gql`
   query getUserListings($address: String!) {
-    listings(where: {seller_address: {_eq: $address}, type: {_eq: "8BID_8X8_COLOR_SWAP"}, fa2_address: {_eq: "${FA2_CONTRACT_8X8_COLOR}"}}, order_by: { created_at: desc }) {
+    listings(where: {seller_address: {_eq: $address}, type: {_eq: "${EVENT_TYPE_PREFIX}_SWAP"}, fa2_address: {_eq: "${FA2_CONTRACT}"}}, order_by: { created_at: desc }) {
       swap_id
       created_at
       seller_address
@@ -129,7 +130,7 @@ function UserListings({ address, showCancelButton = true, headline = 'My Listing
                 <tr key={listing.created_at}>
                   <td>
                     <Link to={`/token/${listing.token.token_id}`}>
-                      <Preview rgb={listing.token.eightbid_rgb} />
+                      <Preview rgb={toHex(listing.token.eightbid_rgb)} />
                     </Link>
                   </td>
                   <td>

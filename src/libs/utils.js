@@ -1,5 +1,6 @@
 import maxBy from 'lodash/maxBy';
 import get from 'lodash/get';
+import { PIXEL_FORMAT, COLOR_FORMAT } from '../consts';
 
 export function chunkLeft(str, size = 6) {
   if (typeof str === 'string') {
@@ -53,14 +54,22 @@ export function getUsername(data, field) {
 
 export const hexColorsToPng = (hexColors) => {
   const c = document.createElement('canvas');
-  c.width = 16;
-  c.height = 16;
+  c.width = 32;
+  c.height = 32;
   const ctx = c.getContext('2d');
   const rgb = hexColors.match(/.{1,6}/g).map((x) => '#' + x);
-  for (let x = 0; x < 8; x++) {
-    for (let y = 0; y < 8; y++) {
-      ctx.fillStyle = rgb[x + y * 8];
-      ctx.fillRect(x * 2, y * 2, 2, 2);
+  const pixelSize = Math.floor(32 / PIXEL_FORMAT);
+  const borderSize = 32 % PIXEL_FORMAT;
+
+  for (let x = 0; x < PIXEL_FORMAT + borderSize; x++) {
+    for (let y = 0; y < PIXEL_FORMAT + borderSize; y++) {
+      if (x < borderSize || y < borderSize || x > 32 - borderSize || y > 32 - borderSize) {
+        ctx.fillStyle = '#ffffff';
+      } else {
+        ctx.fillStyle = rgb[x - borderSize + (y - borderSize) * PIXEL_FORMAT];
+      }
+
+      ctx.fillRect(x * pixelSize, y * pixelSize, pixelSize, pixelSize);
     }
   }
   return c.toDataURL('image/png');
@@ -69,3 +78,19 @@ export const hexColorsToPng = (hexColors) => {
 export function shortenTzAddress(address) {
   return `${address.substr(0, 5)}…${address.substr(-5)}`;
 }
+
+const utf8decoder = new TextDecoder();
+
+export const toHex = (str) => {
+  if (COLOR_FORMAT === 'monochrome') {
+    // thank you cables.and.pixels, for this code snippet!
+    const ints = str.match(/.{1,2}/g).map((v) => parseInt(v, 16));
+    return utf8decoder
+      .decode(new Uint8Array(ints))
+      .match(/.{1,2}/g)
+      .map((v) => `${v}${v}${v}`)
+      .join('');
+  }
+
+  return str;
+};

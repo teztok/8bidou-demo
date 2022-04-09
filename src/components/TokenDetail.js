@@ -16,12 +16,12 @@ import BuyButton from './BuyButton';
 import CreationsTokenGrid from './CreationsTokenGrid';
 import ListingsTable from './ListingsTable';
 import HoldingsTable from './HoldingsTable';
-import { TEZTOK_API, FA2_CONTRACT_8X8_COLOR, MARKETPLACE_CONTRACT_8X8_COLOR } from '../consts';
-import { hexToRGB, getPrimaryHexColor, hexColorsToPng } from '../libs/utils';
+import { TEZTOK_API, FA2_CONTRACT, MARKETPLACE_CONTRACT, EVENT_TYPE_PREFIX } from '../consts';
+import { hexToRGB, getPrimaryHexColor, hexColorsToPng, toHex } from '../libs/utils';
 
 const TokenQuery = gql`
   query getToken($tokenId: String!) {
-    token: tokens_by_pk(fa2_address: "${FA2_CONTRACT_8X8_COLOR}", token_id: $tokenId) {
+    token: tokens_by_pk(fa2_address: "${FA2_CONTRACT}", token_id: $tokenId) {
       token_id
       name
       description
@@ -67,7 +67,7 @@ const TokenQuery = gql`
         price
         total_price
       }
-      swaps: events(where: { type: { _eq: "8BID_8X8_COLOR_SWAP" } }, order_by: { opid: asc }) {
+      swaps: events(where: { type: { _eq: "${EVENT_TYPE_PREFIX}_SWAP" } }, order_by: { opid: asc }) {
         opid
         timestamp
         swap_id
@@ -120,8 +120,6 @@ function useToken(tokenId) {
     data.token.listings = filteredListings;
   }
 
-  console.log('data.token', data);
-
   return {
     token: data && data.token,
     doesNotExist: data && data.token === null,
@@ -162,7 +160,7 @@ function Sales({ sales }) {
 }
 
 function ListingsAndHoldings({ holdings, listings }) {
-  const holdingsFiltered = holdings.filter(({ holder_address }) => holder_address !== MARKETPLACE_CONTRACT_8X8_COLOR);
+  const holdingsFiltered = holdings.filter(({ holder_address }) => holder_address !== MARKETPLACE_CONTRACT);
 
   return (
     <div className="ListingsAndHoldings">
@@ -188,9 +186,9 @@ function TokenDetail() {
     return <LoadingLayer />;
   }
 
-  const backgroundColor = hexToRGB(getPrimaryHexColor(token.eightbid_rgb), 0.25);
+  const backgroundColor = hexToRGB(getPrimaryHexColor(toHex(token.eightbid_rgb)), 0.25);
 
-  const favicon = hexColorsToPng(token.eightbid_rgb);
+  const favicon = hexColorsToPng(toHex(token.eightbid_rgb));
 
   const twitter = get(token, 'artist_profile.twitter');
 
@@ -199,7 +197,7 @@ function TokenDetail() {
       <div className="TokenDetail">
         <div className="Token__Cols">
           <div className="TokenDetail__Thumbnail">
-            <Preview rgb={token.eightbid_rgb} large />
+            <Preview rgb={toHex(token.eightbid_rgb)} large />
             {token.listings.length ? <BuyButton listing={token.listings[0]} /> : null}
           </div>
           <div className="TokenDetail__Meta">
