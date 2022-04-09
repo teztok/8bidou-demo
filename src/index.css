@@ -392,6 +392,10 @@ button:active {
   width: auto !important;
 }
 
+.Button--inverted {
+  /* TODO: invert styles */
+}
+
 .Button:hover {
   background-color: blue !important;
 
@@ -532,6 +536,10 @@ button:active {
 
 .TokenDetail__MetaInfo {
   margin-top: calc(var(--unit) * 0.75);
+}
+
+.TokenDetail__MetaInfo span {
+  text-transform: uppercase;
 }
 
 .TokenDetail__MetaInfo a {
@@ -798,6 +806,10 @@ button:active {
 
 .UserDetail__MetaInfo {
   width: calc(100% / 5);
+}
+
+.UserDetail__MetaInfo span {
+  text-transform: uppercase;
 }
 
 @media screen and (max-width: 900px) {
