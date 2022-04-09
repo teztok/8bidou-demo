@@ -38,7 +38,7 @@ const UserQuery = gql`
         last_sales_price
       }
     }
-    creations: tokens_aggregate(where: {artist_address: {_eq: $address}, fa2_address: {_eq: "${FA2_CONTRACT}"}}) {
+    creations: tokens_aggregate(where: {artist_address: {_eq: $address}, fa2_address: {_eq: "${FA2_CONTRACT}"}, editions: {_gt: 0}}) {
       aggregate {
         total: count(columns: token_id)
       }
