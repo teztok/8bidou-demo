@@ -813,7 +813,13 @@ a {
 
 .User {
   position: relative;
-  padding-right: 16px;
+  padding-right: 20px;
+}
+
+@media (hover: hover) {
+  .User:hover .User__Icon em {
+    transform: translate3d(1px,-1px,0) scaleX(-1);
+  }
 }
 
 .User__Icon {
@@ -821,10 +827,22 @@ a {
   position: absolute;
   top: 0;
   right: 0;
-  transform: translate3d(0, -2px, 0);
+  width: 15px;
+  height: 15px;
+  transform: translate3d(0, -4px, 0);
+  background-color: var(--black);
+  border-radius: 15px;
 
-  font-size: 10px;
-  line-height: 10px;
+  font-size: 8px;
+  line-height: 15px;
+  text-align: center;
+}
+
+.User__Icon em {
+  display: block;
+  transform: translate3d(-1px,-1px,0);
+
+  font-style: normal;
 }
 
 .CodeError {

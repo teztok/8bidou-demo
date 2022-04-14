@@ -11,7 +11,7 @@ export default function UserLink({ field, data, label = null, hideIsYouIndicator
   return (
     <Link to={`/user/${data[`${field}_address`]}`} className={`${isYou ? 'User' : ''}`}>
       {name}
-      {isYou ? <span className="User__Icon">👀</span> : ''}
+      {isYou ? <span className="User__Icon"><em>👀</em></span> : ''}
     </Link>
   );
 }
