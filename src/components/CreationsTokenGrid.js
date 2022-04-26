@@ -34,6 +34,7 @@ function CreationsTokenGrid({ address, headline = 'Creations', filter }) {
           artist_address
           artist_profile {
             alias
+            twitter
             description
           }
         }

@@ -112,10 +112,10 @@ function UserDetail() {
       <div className="UserDetail">
         <h2>{isYou ? 'My Profile' : shortenTzAddress(address) + '`s Profile'}</h2>
         <div className="UserDetail__Meta">
-          <MetaInfo label="Alias">{get(user, 'alias') ? <>{user.alias}</> : '–'}</MetaInfo>
           <MetaInfo label="Twitter">
             {get(user, 'twitter') ? <a href={`https://twitter.com/${user.twitter}`}>@{user.twitter}</a> : '–'}
           </MetaInfo>
+          <MetaInfo label="Alias">{get(user, 'alias') ? <>{user.alias}</> : '–'}</MetaInfo>
           <MetaInfo label="Tacos Spent">
             <Price amount={buyVolume} />
           </MetaInfo>

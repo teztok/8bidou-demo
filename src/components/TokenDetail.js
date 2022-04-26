@@ -34,14 +34,15 @@ const TokenQuery = gql`
       artist_address
       artist_profile {
         alias
-        description
         twitter
+        description
       }
       listings(where: { status: { _eq: "active" } }, order_by: { price: asc }) {
         seller_address
         swap_id
         seller_profile {
           alias
+          twitter
           description
         }
         contract_address
@@ -56,11 +57,13 @@ const TokenQuery = gql`
         seller_address
         seller_profile {
           alias
+          twitter
           description
         }
         buyer_address
         buyer_profile {
           alias
+          twitter
           description
         }
         amount
@@ -79,6 +82,7 @@ const TokenQuery = gql`
         holder_address
         holder_profile {
           alias
+          twitter
           description
         }
         amount

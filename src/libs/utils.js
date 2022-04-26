@@ -49,7 +49,7 @@ export const hexToRGB = (hex, alpha = 1) => {
 };
 
 export function getUsername(data, field) {
-  return get(data, `${field}_profile.alias`) ? get(data, `${field}_profile.alias`) : shortenTzAddress(data[`${field}_address`]);
+  return get(data, `${field}_profile.twitter`) ? `@${get(data, `${field}_profile.twitter`)}` : shortenTzAddress(data[`${field}_address`]);
 }
 
 export const hexColorsToPng = (hexColors) => {

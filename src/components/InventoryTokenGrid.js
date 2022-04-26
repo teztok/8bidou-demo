@@ -28,6 +28,7 @@ function InventoryTokenGrid({ address }) {
           holder_address
           holder_profile {
             alias
+            twitter
             description
           }
           token {
@@ -42,6 +43,7 @@ function InventoryTokenGrid({ address }) {
             artist_address
             artist_profile {
               alias
+              twitter
               description
             }
           }

@@ -818,7 +818,7 @@ a {
 
 @media (hover: hover) {
   .User:hover .User__Icon em {
-    transform: translate3d(1px,-1px,0) scaleX(-1);
+    transform: translate3d(1px, -1px, 0) scaleX(-1);
   }
 }
 
@@ -840,7 +840,7 @@ a {
 
 .User__Icon em {
   display: block;
-  transform: translate3d(-1px,-1px,0);
+  transform: translate3d(-1px, -1px, 0);
 
   font-style: normal;
 }

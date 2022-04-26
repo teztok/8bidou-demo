@@ -35,6 +35,7 @@ function LatestSalesTokenGrid() {
               artist_address
               artist_profile {
                 alias
+                twitter
                 description
               }
             }

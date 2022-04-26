@@ -34,6 +34,7 @@ const UserListingsQuery = gql`
         artist_address
         artist_profile {
           alias
+          twitter
           description
         }
       }
