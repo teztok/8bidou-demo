@@ -15,7 +15,7 @@ import BuyButton from './BuyButton';
 import CreationsTokenGrid from './CreationsTokenGrid';
 import ListingsTable from './ListingsTable';
 import HoldingsTable from './HoldingsTable';
-import { TEZTOK_API, FA2_CONTRACT, MARKETPLACE_CONTRACT } from '../consts';
+import { TEZTOK_API, FA2_CONTRACT, MARKETPLACE_CONTRACT, ORIGINAL_TOKEN_LINK } from '../consts';
 import { hexToRGB, getPrimaryHexColor, hexColorsToPng, toHex } from '../libs/utils';
 
 const TokenQuery = gql`
@@ -192,7 +192,7 @@ function TokenDetail() {
             </div>
 
             <div className="TokenDetail__8bidou">
-              <a href={`https://www.8bidou.com/listing/?id=${token.token_id}`} className="ButtonInvert">
+              <a href={`${ORIGINAL_TOKEN_LINK}${token.token_id}`} className="ButtonInvert">
                 Open #{token.token_id} on 8bidou
               </a>
             </div>
