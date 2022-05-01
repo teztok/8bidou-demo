@@ -1,6 +1,5 @@
 import useSWR from 'swr';
 import get from 'lodash/get';
-import keyBy from 'lodash/keyBy';
 import { request, gql } from 'graphql-request';
 import { useParams } from 'react-router-dom';
 import ReactTimeAgo from 'react-time-ago';
@@ -16,7 +15,7 @@ import BuyButton from './BuyButton';
 import CreationsTokenGrid from './CreationsTokenGrid';
 import ListingsTable from './ListingsTable';
 import HoldingsTable from './HoldingsTable';
-import { TEZTOK_API, FA2_CONTRACT, MARKETPLACE_CONTRACT, EVENT_TYPE_PREFIX } from '../consts';
+import { TEZTOK_API, FA2_CONTRACT, MARKETPLACE_CONTRACT } from '../consts';
 import { hexToRGB, getPrimaryHexColor, hexColorsToPng, toHex } from '../libs/utils';
 
 const TokenQuery = gql`
@@ -70,14 +69,6 @@ const TokenQuery = gql`
         price
         total_price
       }
-      swaps: events(where: { type: { _eq: "${EVENT_TYPE_PREFIX}_SWAP" } }, order_by: { opid: asc }) {
-        opid
-        timestamp
-        swap_id
-        artist_address
-        seller_address
-        royalties
-      }
       holdings(where: { amount: { _gt: 0 } }, order_by: { amount: desc }) {
         holder_address
         holder_profile {
@@ -96,33 +87,6 @@ function useToken(tokenId) {
     revalidateIfStale: false,
     revalidateOnFocus: false,
   });
-
-  if (data && data.token) {
-    const swapsById = keyBy(data.token.swaps, 'swap_id');
-
-    // filter out potentially fraudulent swaps
-    const filteredListings = data.token.listings.filter((listing) => {
-      const swap = swapsById[listing.swap_id];
-
-      if (!swap) {
-        return false;
-      }
-
-      if (swap.royalties !== 100) {
-        // royalties should always be set to 100 (10%)
-        return false;
-      }
-
-      if (swap.artist_address !== data.token.artist_address) {
-        // swap creator didn't set 'creator' to the artist address
-        return false;
-      }
-
-      return true;
-    });
-
-    data.token.listings = filteredListings;
-  }
 
   return {
     token: data && data.token,
