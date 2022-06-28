@@ -24,7 +24,7 @@ function LatestMintsTokenGrid() {
               fa2_address: { _eq: "${FA2_CONTRACT}" }
             }
             limit: $limit
-            order_by: { opid: desc }
+            order_by: { timestamp: desc }
           ) {
             id
             token {

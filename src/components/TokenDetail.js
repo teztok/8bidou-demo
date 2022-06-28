@@ -50,7 +50,7 @@ const TokenQuery = gql`
         amount_left
         status
       }
-      events(where: { implements: { _eq: "SALE" } }, order_by: { opid: desc }) {
+      events(where: { implements: { _eq: "SALE" } }, order_by: { timestamp: desc }) {
         opid
         timestamp
         seller_address
