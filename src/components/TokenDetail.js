@@ -51,6 +51,7 @@ const TokenQuery = gql`
         status
       }
       events(where: { implements: { _eq: "SALE" } }, order_by: { timestamp: desc }) {
+        id
         opid
         timestamp
         seller_address
@@ -67,7 +68,6 @@ const TokenQuery = gql`
         }
         amount
         price
-        total_price
       }
       holdings(where: { amount: { _gt: 0 } }, order_by: { amount: desc }) {
         holder_address
@@ -106,8 +106,8 @@ function Sales({ sales }) {
       <table className="SalesTable">
         <tbody>
           {sales.map((sale) => (
-            <tr key={sale.opid}>
-              <td>{sale.amount} x</td>
+            <tr key={sale.id}>
+              <td>{1} x</td>
               <td>
                 <UserLink data={sale} field="seller" />
                 <span> ➔ </span>

@@ -21,14 +21,14 @@ const UserQuery = gql`
     sales: events_aggregate(where: {seller_address: {_eq: $address}, implements: {_eq: "SALE"}, fa2_address: {_eq: "${FA2_CONTRACT}"}, type: {_like: "8BID_%"}}) {
       aggregate {
         sum {
-          volume: total_price
+          volume: price
         }
       }
     }
     buys: events_aggregate(where: {buyer_address: {_eq: $address}, implements: {_eq: "SALE"}, fa2_address: {_eq: "${FA2_CONTRACT}"}, type: {_like: "8BID_%"}}) {
       aggregate {
         sum {
-          volume: total_price
+          volume: price
         }
       }
     }
